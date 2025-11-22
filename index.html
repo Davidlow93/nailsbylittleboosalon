@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💅 [您的美甲店名称] - 专业美甲与预约</title>
+    <style>
+        /* 基础重置 */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8; /* 浅灰色背景 */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff; /* 白色内容区 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header, section {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        h1 {
+            color: #e57373; /* 柔和的粉红色 */
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #795548; /* 温暖的棕色 */
+            border-left: 5px solid #ffccbc;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+
+        /* 预约按钮样式 */
+        .booking-button {
+            display: block;
+            width: 80%;
+            margin: 30px auto;
+            padding: 15px 20px;
+            background-color: #4CAF50; /* WhatsApp 绿色 */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-button:hover {
+            background-color: #45a049;
+        }
+
+        /* 菜单列表样式 */
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #f0f0f0;
+        }
+
+        .menu-item h3 {
+            margin: 0;
+            color: #5d4037;
+            font-size: 1.1em;
+        }
+
+        .menu-item p {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .menu-price {
+            font-weight: bold;
+            color: #e57373;
+            flex-shrink: 0; /* 防止价格被压缩 */
+            margin-left: 15px;
+        }
+
+        /* IG 链接样式 */
+        .ig-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #e1306c; /* Instagram 品牌色 */
+            font-weight: bold;
+        }
+
+        .ig-link:hover {
+            background-color: #e0e0e0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <a id="booking"
+           href="https://wa.me/您的国家代码和电话号码?text=您好，我想预约美甲服务，请问最近有空位吗？"
+           target="_blank"
+           class="booking-button">
+            💅 立即预约 (WhatsApp)
+        </a>
+        <header>
+            <h1>[您的美甲店名称]</h1>
+            <p style="text-align: center; color: #e57373; font-style: italic;">✨ 您的指尖艺术专家 - 带来专属的精致美甲体验 ✨</p>
+
+            <h2>📍 店铺信息</h2>
+            <p><strong>地址：</strong> [请填入您的详细地址，例如：XX 商业区 3 楼]</p>
+            <p><strong>营业时间：</strong> [请填入您的营业时间，例如：周二至周日 11:00 AM - 8:00 PM (周一休息)]</p>
+
+            <h2>💖 我们的特色</h2>
+            <p>
+                我们专注于提供高质量的美甲服务，精选进口美甲产品，所有工具均经过严格消毒，致力于为您提供一个放松、安全且美丽的体验。
+            </p>
+        </header>
+
+        <section id="menu">
+            <h2>📋 服务项目与价格</h2>
+
+            <h3>基础手足护理</h3>
+            <div class="menu-item">
+                <div>
+                    <h3>基础手部护理</h3>
+                    <p>修甲型、去死皮、指缘油保养。</p>
+                </div>
+                <span class="menu-price">$50</span>
+            </div>
+            <div class="menu-item">
+                <div>
+                    <h3>深层足部护理</h3>
+                    <p>包含去角质、足膜及按摩。</p>
+                </div>
+                <span class="menu-price">$120</span>
+            </div>
+
+            <h3>光疗美甲系列</h3>
+            <div class="menu-item">
+                <div>
+                    <h3>单色/跳色光疗</h3>
+                    <p>纯色或双色选择，持久亮丽。</p>
+                </div>
+                <span class="menu-price">从 $88 起</span>
+            </div>
+            <div class="menu-item">
+                <div>
+                    <h3>法式/渐变光疗</h3>
+                    <p>经典优雅款式，含基础护理。</p>
+                </div>
+                <span class="menu-price">从 $108 起</span>
+            </div>
+
+            <h3>设计与附加服务</h3>
+            <div class="menu-item">
+                <div>
+                    <h3>手绘复杂设计</h3>
+                    <p>按图案复杂度计费。</p>
+                </div>
+                <span class="menu-price">+$10/指</span>
+            </div>
+            <div class="menu-item">
+                <div>
+                    <h3>卸甲 (非本店)</h3>
+                    <p>温柔卸除外部美甲。</p>
+                </div>
+                <span class="menu-price">$30</span>
+            </div>
+        </section>
+
+        <section id="portfolio">
+            <h2>📸 我们的最新作品</h2>
+            <p style="text-align: center;">每周更新最新款式，请点击下方链接查看更多美甲灵感。</p>
+            <a href="https://www.instagram.com/您的IG用户名/" target="_blank" class="ig-link">
+                💖 点击这里进入我们的 Instagram 作品集！
+            </a>
+            </section>
+
+        <footer style="text-align: center; font-size: 0.8em; color: #999; margin-top: 40px;">
+            <p>© 2025 [您的美甲店名称] 保留所有权利</p>
+        </footer>
+    </div>
+</body>
+</html>
