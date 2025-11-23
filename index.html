@@ -1,203 +1,298 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💅 [您的美甲店名称] - 专业美甲与预约</title>
+    <title>NailsbyLittleboo Salon - Professional Nail Art & Courses</title>
+    <!-- Tailwind CSS CDN for modern styling --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 基础重置 */
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f8f8; /* 浅灰色背景 */
-            color: #333;
-            line-height: 1.6;
+        /* Custom Tailwind Configuration */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-black': '#000000', 
+                        'accent-gray': '#e5e7eb',  
+                        'dark-gray': '#1f2937',    
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
+                    },
+                }
+            }
         }
-
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #fff; /* 白色内容区 */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        header, section {
-            padding: 20px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        h1 {
-            color: #e57373; /* 柔和的粉红色 */
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            color: #795548; /* 温暖的棕色 */
-            border-left: 5px solid #ffccbc;
-            padding-left: 10px;
-            margin-top: 30px;
-        }
-
-        /* 预约按钮样式 */
-        .booking-button {
-            display: block;
-            width: 80%;
-            margin: 30px auto;
-            padding: 15px 20px;
-            background-color: #4CAF50; /* WhatsApp 绿色 */
+        /* Custom scroll-to-top button styling (Black/White Theme) */
+        #scrollTopBtn {
+            display: none; 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            z-index: 1000; 
+            background-color: #000000; 
             color: white;
+            border: none;
+            border-radius: 50%; 
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            line-height: 50px; 
             text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        #scrollTopBtn:hover {
+            background-color: #374151; 
+            transform: scale(1.05);
+        }
+
+        /* Sticky footer for booking on scroll */
+        .sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white; 
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); 
+            z-index: 999;
+            transform: translateY(100%); 
+            transition: transform 0.3s ease-in-out;
+        }
+        .sticky-footer.show {
+            transform: translateY(0); 
+        }
+
+        /* Hero section background image styling */
+        .hero-section {
+            /* ❗ 已更新为您的新文件名 'home page.png' 并且删除了 'assets/' 前缀 */
+            background-image: url('./home page.png'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; 
+            background-repeat: no-repeat;
+            position: relative;
+            z-index: 1; 
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* 稍微调暗背景图，增加文字和 Logo 的对比度 */
+            background: rgba(0, 0, 0, 0.2); 
+            z-index: -1; 
+        }
+
+        /* Hero buttons custom styling (Apple Black/White Look) */
+        .hero-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 2rem; 
+            border-radius: 9999px; 
+            font-size: 1.25rem; 
+            font-weight: 500; 
+            color: #ffffff; /* 按钮文字改为白色，因为背景图更暗了 */
+            background-color: transparent; 
+            border: 1px solid #ffffff; /* 按钮边框改为白色，因为背景图更暗了 */
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease-in-out;
             text-decoration: none;
-            font-size: 1.2em;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: background-color 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .booking-button:hover {
-            background-color: #45a049;
+        .hero-button:hover {
+            background-color: #ffffff; /* 鼠标悬停时背景变为白色 */
+            color: #000000; /* 鼠标悬停时文字变为黑色 */
+            transform: translateY(-1px); 
         }
 
-        /* 菜单列表样式 */
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px dashed #f0f0f0;
-        }
-
-        .menu-item h3 {
-            margin: 0;
-            color: #5d4037;
-            font-size: 1.1em;
-        }
-
-        .menu-item p {
-            margin-top: 5px;
-            font-size: 0.9em;
-            color: #666;
-        }
-
-        .menu-price {
-            font-weight: bold;
-            color: #e57373;
-            flex-shrink: 0; /* 防止价格被压缩 */
-            margin-left: 15px;
-        }
-
-        /* IG 链接样式 */
-        .ig-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            text-decoration: none;
-            color: #e1306c; /* Instagram 品牌色 */
-            font-weight: bold;
-        }
-
-        .ig-link:hover {
-            background-color: #e0e0e0;
+        /* Fallback style for logo text if image fails to load */
+        .logo-fallback {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff; /* 文字改为白色，以适应更深的背景图 */
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
         }
 
     </style>
 </head>
-<body>
+<body class="bg-white text-gray-800 font-sans antialiased">
 
-    <div class="container">
+    <!-- Scroll to Top Button --><button id="scrollTopBtn" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-        <a id="booking"
-           href="https://wa.me/您的国家代码和电话号码?text=您好，我想预约美甲服务，请问最近有空位吗？"
-           target="_blank"
-           class="booking-button">
-            💅 立即预约 (WhatsApp)
-        </a>
-        <header>
-            <h1>[您的美甲店名称]</h1>
-            <p style="text-align: center; color: #e57373; font-style: italic;">✨ 您的指尖艺术专家 - 带来专属的精致美甲体验 ✨</p>
+    <!-- Main Content Area --><main class="max-w-6xl mx-auto">
 
-            <h2>📍 店铺信息</h2>
-            <p><strong>地址：</strong> [请填入您的详细地址，例如：XX 商业区 3 楼]</p>
-            <p><strong>营业时间：</strong> [请填入您的营业时间，例如：周二至周日 11:00 AM - 8:00 PM (周一休息)]</p>
-
-            <h2>💖 我们的特色</h2>
-            <p>
-                我们专注于提供高质量的美甲服务，精选进口美甲产品，所有工具均经过严格消毒，致力于为您提供一个放松、安全且美丽的体验。
-            </p>
-        </header>
-
-        <section id="menu">
-            <h2>📋 服务项目与价格</h2>
-
-            <h3>基础手足护理</h3>
-            <div class="menu-item">
-                <div>
-                    <h3>基础手部护理</h3>
-                    <p>修甲型、去死皮、指缘油保养。</p>
-                </div>
-                <span class="menu-price">$50</span>
+        <!-- Section 1: Hero - Brand Logo & Main Links with Background Image --><section class="hero-section h-screen flex flex-col justify-center items-center text-center p-8">
+            
+            <!-- Logo Image (替换为您的新文件名 'Logo.png' 并且删除了 'assets/' 前缀) -->
+            <img id="mainLogo"
+                 src="./Logo.png" 
+                 alt="NailsbyLittleboo Salon Logo" 
+                 class="w-full max-w-sm md:max-w-lg lg:max-w-xl mb-12"
+                 style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));" 
+                 onerror="handleLogoError()">
+            
+            <!-- Logo Fallback Text (Hidden initially) -->
+            <div id="logoTextFallback" class="hidden logo-fallback">
+                NailsbyLittleboo Salon
             </div>
-            <div class="menu-item">
-                <div>
-                    <h3>深层足部护理</h3>
-                    <p>包含去角质、足膜及按摩。</p>
-                </div>
-                <span class="menu-price">$120</span>
+            
+            <div class="flex space-x-4 mt-4">
+                <a href="#menu" class="hero-button">
+                    menu
+                </a>
+                <a href="https://wa.me/60183887390" 
+                   target="_blank"
+                   class="hero-button">
+                    book now
+                </a>
             </div>
-
-            <h3>光疗美甲系列</h3>
-            <div class="menu-item">
-                <div>
-                    <h3>单色/跳色光疗</h3>
-                    <p>纯色或双色选择，持久亮丽。</p>
-                </div>
-                <span class="menu-price">从 $88 起</span>
-            </div>
-            <div class="menu-item">
-                <div>
-                    <h3>法式/渐变光疗</h3>
-                    <p>经典优雅款式，含基础护理。</p>
-                </div>
-                <span class="menu-price">从 $108 起</span>
-            </div>
-
-            <h3>设计与附加服务</h3>
-            <div class="menu-item">
-                <div>
-                    <h3>手绘复杂设计</h3>
-                    <p>按图案复杂度计费。</p>
-                </div>
-                <span class="menu-price">+$10/指</span>
-            </div>
-            <div class="menu-item">
-                <div>
-                    <h3>卸甲 (非本店)</h3>
-                    <p>温柔卸除外部美甲。</p>
-                </div>
-                <span class="menu-price">$30</span>
+            <!-- Optional: A subtle down arrow for visual cue to scroll --><div class="absolute bottom-12 animate-bounce">
+                <i class="fas fa-arrow-down text-white text-3xl"></i>
             </div>
         </section>
 
-        <section id="portfolio">
-            <h2>📸 我们的最新作品</h2>
-            <p style="text-align: center;">每周更新最新款式，请点击下方链接查看更多美甲灵感。</p>
-            <a href="https://www.instagram.com/您的IG用户名/" target="_blank" class="ig-link">
-                💖 点击这里进入我们的 Instagram 作品集！
-            </a>
-            </section>
+        <!-- Section 2: Menu --><section id="menu" class="py-24 bg-white border-b border-accent-gray">
+            <div class="max-w-4xl mx-auto px-6">
+                <h2 class="text-5xl font-light text-center text-dark-gray mb-16">Our Services</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Classic Gel Manicure --><div class="p-8 border rounded-lg shadow-sm hover:shadow-md transition duration-200">
+                        <h3 class="text-3xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-hand-sparkles text-dark-gray mr-4"></i> Classic Gel Manicure
+                        </h3>
+                        <p class="text-lg text-gray-600 leading-relaxed mb-4">
+                            Includes nail shaping, cuticle care, light massage, and a perfect application of long-lasting gel polish. Choose from our wide range of colors.
+                        </p>
+                        <span class="text-2xl font-bold text-dark-gray">From $XX</span>
+                        <!-- Replace XX with actual price --></div>
 
-        <footer style="text-align: center; font-size: 0.8em; color: #999; margin-top: 40px;">
-            <p>© 2025 [您的美甲店名称] 保留所有权利</p>
+                    <!-- Classic Gel Pedicure --><div class="p-8 border rounded-lg shadow-sm hover:shadow-md transition duration-200">
+                        <h3 class="text-3xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-spa text-dark-gray mr-4"></i> Classic Gel Pedicure
+                        </h3>
+                        <p class="text-lg text-gray-600 leading-relaxed mb-4">
+                            Indulge in our soothing foot soak, gentle exfoliation, cuticle and callus care, relaxing foot massage, and a flawless gel polish finish.
+                        </p>
+                        <span class="text-2xl font-bold text-dark-gray">From $XX</span>
+                        <!-- Replace XX with actual price --></div>
+                </div>
+
+                <!-- Nail Art Courses (Black/White Theme) --><div class="mt-16 bg-gray-50 p-10 rounded-lg shadow-lg text-center border border-gray-200">
+                    <h3 class="text-3xl font-bold text-dark-gray mb-6 flex items-center justify-center">
+                        <i class="fas fa-graduation-cap mr-4"></i> Our Professional Nail Art Courses
+                    </h3>
+                    <p class="text-xl text-gray-700 leading-relaxed mb-6">
+                        Unlock your potential with our comprehensive nail art courses. From beginner techniques to advanced designs, we provide hands-on training and expert guidance to help you master the art of nail design.
+                    </p>
+                    <a href="https://wa.me/60183887390" 
+                       target="_blank"
+                       class="inline-flex items-center justify-center 
+                              bg-dark-gray hover:bg-black text-white 
+                              font-bold text-lg py-3 px-8 rounded-full 
+                              shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
+                        <i class="fab fa-whatsapp mr-3"></i> Inquire About Courses
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Instagram Latest Works --><section id="portfolio" class="py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <h2 class="text-5xl font-light text-center text-dark-gray mb-16">See Our Latest Artistry</h2>
+                <p class="text-center text-xl text-gray-600 mb-12">
+                    Follow us on Instagram to view hundreds of designs and daily inspiration directly on our profile.
+                </p>
+
+                <!-- Large Instagram Link Block (Black/White Theme) --><div class="flex flex-col items-center justify-center p-12 bg-white rounded-xl shadow-xl border border-gray-300">
+                    <i class="fab fa-instagram text-dark-gray text-8xl mb-6"></i>
+                    <h3 class="text-3xl font-bold text-gray-800 mb-4">@nailsbylittleboo</h3>
+                    <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" 
+                       target="_blank" 
+                       class="inline-flex items-center justify-center 
+                              bg-dark-gray hover:bg-black text-white 
+                              font-bold text-lg py-3 px-12 rounded-full 
+                              shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-arrow-right mr-3"></i> Visit Instagram Profile
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer (Simple & Clean) --><footer class="py-10 bg-gray-50 border-t border-accent-gray">
+            <div class="max-w-6xl mx-auto px-6 text-center text-gray-600">
+                <p class="mb-2">&copy; 2025 NailsbyLittleboo Salon. All rights reserved.</p>
+                <p>Designed for professional nail artists.</p>
+            </div>
         </footer>
+
+    </main>
+
+    <!-- Sticky Footer for Booking Now (Black/White Theme) --><div id="stickyBookingFooter" class="sticky-footer p-4 flex justify-center items-center">
+        <a href="https://wa.me/60183887390" 
+           target="_blank"
+           class="inline-flex items-center justify-center 
+                  bg-black hover:bg-gray-700 text-white 
+                  font-bold text-lg py-3 px-10 rounded-full 
+                  shadow-xl transition duration-300 transform hover:scale-105">
+            <i class="fab fa-whatsapp mr-3 text-xl"></i> book now via whatsapp
+        </a>
     </div>
+
+    <!-- JavaScript for scroll-to-top and sticky footer and logo fallback --><script>
+        // Logo Fallback Function
+        function handleLogoError() {
+            const logoImg = document.getElementById('mainLogo');
+            const logoText = document.getElementById('logoTextFallback');
+            if (logoImg && logoText) {
+                // Hide the broken image
+                logoImg.classList.add('hidden');
+                // Show the fallback text instead
+                logoText.classList.remove('hidden');
+            }
+        }
+        
+        // When the user scrolls down 200px from the top of the document, show the button and sticky footer
+        let scrollTopBtn = document.getElementById("scrollTopBtn");
+        let stickyBookingFooter = document.getElementById("stickyBookingFooter");
+
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            // Check if user has scrolled down
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                // Show scroll-to-top button
+                scrollTopBtn.style.display = "block";
+                
+                // Show sticky booking footer, but only if we are not at the very bottom of the page
+                let scrollHeight = document.documentElement.scrollHeight;
+                let clientHeight = document.documentElement.clientHeight;
+                let scrollTop = document.documentElement.scrollTop;
+                
+                // Only show the footer if the user is not near the bottom (to prevent overlap with footer content)
+                if (scrollTop + clientHeight < scrollHeight - 50) { 
+                    stickyBookingFooter.classList.add("show");
+                } else {
+                    stickyBookingFooter.classList.remove("show");
+                }
+            } else {
+                // Hide both elements when near the top
+                scrollTopBtn.style.display = "none";
+                stickyBookingFooter.classList.remove("show");
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 </html>
