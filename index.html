@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NailsbyLittleboo Salon - Professional Nail Art & Courses</title>
-    <!-- Tailwind CSS CDN for modern styling --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Chosen Palette: Minimalist Black & White with Warm Gray Accents */
+        /* Application Structure Plan: Thematic Single Page - (1) Hero (Brand & Nav), (2) Menu (Services & Courses), (3) Portfolio Link (Instagram). Chosen because it's clean, mobile-friendly, and task-oriented (Book Now). This is ideal for small businesses needing fast user action. */
+        /* Visualization & Content Choices: Key info (Services, Booking) -> Goal -> Presentation Method -> Interaction -> Justification -> Library/Method. (1) Brand Identity -> High Impact -> Full-screen Image + Text/Logo -> Scroll Down Cue, Nav Links -> Modern, engaging entrance -> HTML/CSS. (2) Services -> Inform/Compare -> Grid Layout with text blocks -> WhatsApp Link CTA -> Clear pricing and service details -> HTML/Tailwind. (3) Courses -> Engage/Lead Gen -> Prominent CTA block -> WhatsApp Link -> Encourages high-value lead conversion -> HTML/Tailwind. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. */
+        
         /* Custom Tailwind Configuration */
         tailwind.config = {
             theme: {
@@ -65,7 +69,7 @@
 
         /* Hero section background image styling */
         .hero-section {
-            /* 路径更新: 改回相对路径，与 Logo 路径格式保持一致 */
+            /* **路径修复：改为 homepage.png** 以匹配您的 GitHub 文件名 */
             background-image: url('./assets/homepage.png'); 
             background-size: cover;
             background-position: center;
@@ -73,6 +77,8 @@
             background-repeat: no-repeat;
             position: relative;
             z-index: 1; 
+            /* 确保背景图填满屏幕高度 */
+            height: 100vh; 
         }
         .hero-section::before {
             content: '';
@@ -82,7 +88,7 @@
             right: 0;
             bottom: 0;
             /* 稍微调暗背景图，增加文字和 Logo 的对比度 */
-            background: rgba(0, 0, 0, 0.2); 
+            background: rgba(0, 0, 0, 0.25); 
             z-index: -1; 
         }
 
@@ -95,16 +101,16 @@
             border-radius: 9999px; 
             font-size: 1.25rem; 
             font-weight: 500; 
-            color: #ffffff; /* 按钮文字改为白色，因为背景图更暗了 */
+            color: #ffffff; 
             background-color: transparent; 
-            border: 1px solid #ffffff; /* 按钮边框改为白色，因为背景图更暗了 */
+            border: 1px solid #ffffff; 
             transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease-in-out;
             text-decoration: none;
         }
 
         .hero-button:hover {
-            background-color: #ffffff; /* 鼠标悬停时背景变为白色 */
-            color: #000000; /* 鼠标悬停时文字变为黑色 */
+            background-color: #ffffff; 
+            color: #000000; 
             transform: translateY(-1px); 
         }
 
@@ -112,7 +118,7 @@
         .logo-fallback {
             font-size: 3rem;
             font-weight: 700;
-            color: #ffffff; /* 文字改为白色，以适应更深的背景图 */
+            color: #ffffff; 
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
         }
 
@@ -120,23 +126,21 @@
 </head>
 <body class="bg-white text-gray-800 font-sans antialiased">
 
-    <!-- Scroll to Top Button --><button id="scrollTopBtn" title="Go to top">
+    <button id="scrollTopBtn" title="Go to top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Main Content Area --><main class="max-w-6xl mx-auto">
+    <main class="max-w-6xl mx-auto">
 
-        <!-- Section 1: Hero - Brand Logo & Main Links with Background Image --><section class="hero-section h-screen flex flex-col justify-center items-center text-center p-8">
+        <section class="hero-section h-screen flex flex-col justify-center items-center text-center">
             
-            <!-- Logo Image (路径: assets/Logo.png - 匹配 GitHub 上的大写 L) -->
             <img id="mainLogo"
                  src="./assets/Logo.png" 
                  alt="NailsbyLittleboo Salon Logo" 
-                 class="w-full max-w-sm md:max-w-lg lg:max-w-xl mb-12"
-                 style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));" 
+                 class="w-full max-w-md mb-16"
+                 style="filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.8));" 
                  onerror="handleLogoError()">
             
-            <!-- Logo Fallback Text (Hidden initially) -->
             <div id="logoTextFallback" class="hidden logo-fallback">
                 NailsbyLittleboo Salon
             </div>
@@ -151,17 +155,17 @@
                     book now
                 </a>
             </div>
-            <!-- Optional: A subtle down arrow for visual cue to scroll --><div class="absolute bottom-12 animate-bounce">
+            <div class="absolute bottom-12 animate-bounce">
                 <i class="fas fa-arrow-down text-white text-3xl"></i>
             </div>
         </section>
 
-        <!-- Section 2: Menu --><section id="menu" class="py-24 bg-white border-b border-accent-gray">
+        <section id="menu" class="py-24 bg-white border-b border-accent-gray">
             <div class="max-w-4xl mx-auto px-6">
                 <h2 class="text-5xl font-light text-center text-dark-gray mb-16">Our Services</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <!-- Classic Gel Manicure --><div class="p-8 border rounded-lg shadow-sm hover:shadow-md transition duration-200">
+                    <div class="p-8 border rounded-lg shadow-sm hover:shadow-md transition duration-200">
                         <h3 class="text-3xl font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-hand-sparkles text-dark-gray mr-4"></i> Classic Gel Manicure
                         </h3>
@@ -169,130 +173,13 @@
                             Includes nail shaping, cuticle care, light massage, and a perfect application of long-lasting gel polish. Choose from our wide range of colors.
                         </p>
                         <span class="text-2xl font-bold text-dark-gray">From $XX</span>
-                        <!-- Replace XX with actual price --></div>
+                        </div>
 
-                    <!-- Classic Gel Pedicure --><div class="p-8 border rounded-lg shadow-sm hover:shadow-md transition duration-200">
+                    <div class="p-8 border rounded-lg shadow-sm hover:shadow-md transition duration-200">
                         <h3 class="text-3xl font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-spa text-dark-gray mr-4"></i> Classic Gel Pedicure
                         </h3>
                         <p class="text-lg text-gray-600 leading-relaxed mb-4">
                             Indulge in our soothing foot soak, gentle exfoliation, cuticle and callus care, relaxing foot massage, and a flawless gel polish finish.
                         </p>
-                        <span class="text-2xl font-bold text-dark-gray">From $XX</span>
-                        <!-- Replace XX with actual price --></div>
-                </div>
-
-                <!-- Nail Art Courses (Black/White Theme) --><div class="mt-16 bg-gray-50 p-10 rounded-lg shadow-lg text-center border border-gray-200">
-                    <h3 class="text-3xl font-bold text-dark-gray mb-6 flex items-center justify-center">
-                        <i class="fas fa-graduation-cap mr-4"></i> Our Professional Nail Art Courses
-                    </h3>
-                    <p class="text-xl text-gray-700 leading-relaxed mb-6">
-                        Unlock your potential with our comprehensive nail art courses. From beginner techniques to advanced designs, we provide hands-on training and expert guidance to help you master the art of nail design.
-                    </p>
-                    <a href="https://wa.me/60183887390" 
-                       target="_blank"
-                       class="inline-flex items-center justify-center 
-                              bg-dark-gray hover:bg-black text-white 
-                              font-bold text-lg py-3 px-8 rounded-full 
-                              shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
-                        <i class="fab fa-whatsapp mr-3"></i> Inquire About Courses
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3: Instagram Latest Works --><section id="portfolio" class="py-24 bg-white">
-            <div class="max-w-6xl mx-auto px-6 text-center">
-                <h2 class="text-5xl font-light text-center text-dark-gray mb-16">See Our Latest Artistry</h2>
-                <p class="text-center text-xl text-gray-600 mb-12">
-                    Follow us on Instagram to view hundreds of designs and daily inspiration directly on our profile.
-                </p>
-
-                <!-- Large Instagram Link Block (Black/White Theme) --><div class="flex flex-col items-center justify-center p-12 bg-white rounded-xl shadow-xl border border-gray-300">
-                    <i class="fab fa-instagram text-dark-gray text-8xl mb-6"></i>
-                    <h3 class="text-3xl font-bold text-gray-800 mb-4">@nailsbylittleboo</h3>
-                    <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" 
-                       target="_blank" 
-                       class="inline-flex items-center justify-center 
-                              bg-dark-gray hover:bg-black text-white 
-                              font-bold text-lg py-3 px-12 rounded-full 
-                              shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
-                        <i class="fas fa-arrow-right mr-3"></i> Visit Instagram Profile
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer (Simple & Clean) --><footer class="py-10 bg-gray-50 border-t border-accent-gray">
-            <div class="max-w-6xl mx-auto px-6 text-center text-gray-600">
-                <p class="mb-2">&copy; 2025 NailsbyLittleboo Salon. All rights reserved.</p>
-                <p>Designed for professional nail artists.</p>
-            </div>
-        </footer>
-
-    </main>
-
-    <!-- Sticky Footer for Booking Now (Black/White Theme) --><div id="stickyBookingFooter" class="sticky-footer p-4 flex justify-center items-center">
-        <a href="https://wa.me/60183887390" 
-           target="_blank"
-           class="inline-flex items-center justify-center 
-                  bg-black hover:bg-gray-700 text-white 
-                  font-bold text-lg py-3 px-10 rounded-full 
-                  shadow-xl transition duration-300 transform hover:scale-105">
-            <i class="fab fa-whatsapp mr-3 text-xl"></i> book now via whatsapp
-        </a>
-    </div>
-
-    <!-- JavaScript for scroll-to-top and sticky footer and logo fallback --><script>
-        // Logo Fallback Function
-        function handleLogoError() {
-            const logoImg = document.getElementById('mainLogo');
-            const logoText = document.getElementById('logoTextFallback');
-            if (logoImg && logoText) {
-                // Hide the broken image
-                logoImg.classList.add('hidden');
-                // Show the fallback text instead
-                logoText.classList.remove('hidden');
-            }
-        }
-        
-        // When the user scrolls down 200px from the top of the document, show the button and sticky footer
-        let scrollTopBtn = document.getElementById("scrollTopBtn");
-        let stickyBookingFooter = document.getElementById("stickyBookingFooter");
-
-        window.onscroll = function() {scrollFunction()};
-
-        function scrollFunction() {
-            // Check if user has scrolled down
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                // Show scroll-to-top button
-                scrollTopBtn.style.display = "block";
-                
-                // Show sticky booking footer, but only if we are not at the very bottom of the page
-                let scrollHeight = document.documentElement.scrollHeight;
-                let clientHeight = document.documentElement.clientHeight;
-                let scrollTop = document.documentElement.scrollTop;
-                
-                // Only show the footer if the user is not near the bottom (to prevent overlap with footer content)
-                if (scrollTop + clientHeight < scrollHeight - 50) { 
-                    stickyBookingFooter.classList.add("show");
-                } else {
-                    stickyBookingFooter.classList.remove("show");
-                }
-            } else {
-                // Hide both elements when near the top
-                scrollTopBtn.style.display = "none";
-                stickyBookingFooter.classList.remove("show");
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document
-        scrollTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    </script>
-</body>
-</html>
+                        <span class="text-2xl font-bold text
