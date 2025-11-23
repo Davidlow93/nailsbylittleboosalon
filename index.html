@@ -182,4 +182,121 @@
                         <p class="text-lg text-gray-600 leading-relaxed mb-4">
                             Indulge in our soothing foot soak, gentle exfoliation, cuticle and callus care, relaxing foot massage, and a flawless gel polish finish.
                         </p>
-                        <span class="text-2xl font-bold text
+                        <span class="text-2xl font-bold text-dark-gray">From $XX</span>
+                        </div>
+                </div>
+
+                <div class="mt-16 bg-gray-50 p-10 rounded-lg shadow-lg text-center border border-gray-200">
+                    <h3 class="text-3xl font-bold text-dark-gray mb-6 flex items-center justify-center">
+                        <i class="fas fa-graduation-cap mr-4"></i> Our Professional Nail Art Courses
+                    </h3>
+                    <p class="text-xl text-gray-700 leading-relaxed mb-6">
+                        Unlock your potential with our comprehensive nail art courses. From beginner techniques to advanced designs, we provide hands-on training and expert guidance to help you master the art of nail design.
+                    </p>
+                    <a href="https://wa.me/60183887390" 
+                       target="_blank"
+                       class="inline-flex items-center justify-center 
+                              bg-dark-gray hover:bg-black text-white 
+                              font-bold text-lg py-3 px-8 rounded-full 
+                              shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
+                        <i class="fab fa-whatsapp mr-3"></i> Inquire About Courses
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <h2 class="text-5xl font-light text-center text-dark-gray mb-16">See Our Latest Artistry</h2>
+                <p class="text-center text-xl text-gray-600 mb-12">
+                    Follow us on Instagram to view hundreds of designs and daily inspiration directly on our profile.
+                </p>
+
+                <div class="flex flex-col items-center justify-center p-12 bg-white rounded-xl shadow-xl border border-gray-300">
+                    <i class="fab fa-instagram text-dark-gray text-8xl mb-6"></i>
+                    <h3 class="text-3xl font-bold text-gray-800 mb-4">@nailsbylittleboo</h3>
+                    <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" 
+                       target="_blank" 
+                       class="inline-flex items-center justify-center 
+                              bg-dark-gray hover:bg-black text-white 
+                              font-bold text-lg py-3 px-12 rounded-full 
+                              shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-arrow-right mr-3"></i> Visit Instagram Profile
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-10 bg-gray-50 border-t border-accent-gray">
+            <div class="max-w-6xl mx-auto px-6 text-center text-gray-600">
+                <p class="mb-2">&copy; 2025 NailsbyLittleboo Salon. All rights reserved.</p>
+                <p>Designed for professional nail artists.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <div id="stickyBookingFooter" class="sticky-footer p-4 flex justify-center items-center">
+        <a href="https://wa.me/60183887390" 
+           target="_blank"
+           class="inline-flex items-center justify-center 
+                  bg-black hover:bg-gray-700 text-white 
+                  font-bold text-lg py-3 px-10 rounded-full 
+                  shadow-xl transition duration-300 transform hover:scale-105">
+            <i class="fab fa-whatsapp mr-3 text-xl"></i> book now via whatsapp
+        </a>
+    </div>
+
+    <script>
+        // Logo Fallback Function (如果图片加载失败，显示文字替代)
+        function handleLogoError() {
+            const logoImg = document.getElementById('mainLogo');
+            const logoText = document.getElementById('logoTextFallback');
+            if (logoImg && logoText) {
+                // 隐藏损坏的图片
+                logoImg.classList.add('hidden');
+                // 显示文字替代
+                logoText.classList.remove('hidden');
+            }
+        }
+        
+        // 当用户向下滚动 200px 时，显示返回顶部按钮和底部预订条
+        let scrollTopBtn = document.getElementById("scrollTopBtn");
+        let stickyBookingFooter = document.getElementById("stickyBookingFooter");
+
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            // 检查是否向下滚动
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                // 显示返回顶部按钮
+                scrollTopBtn.style.display = "block";
+                
+                // 显示底部预订条，但要确保不遮挡页脚
+                let scrollHeight = document.documentElement.scrollHeight;
+                let clientHeight = document.documentElement.clientHeight;
+                let scrollTop = document.documentElement.scrollTop;
+                
+                // 只有当用户没有滚动到页面底部附近时才显示
+                if (scrollTop + clientHeight < scrollHeight - 50) { 
+                    stickyBookingFooter.classList.add("show");
+                } else {
+                    stickyBookingFooter.classList.remove("show");
+                }
+            } else {
+                // 靠近顶部时隐藏两者
+                scrollTopBtn.style.display = "none";
+                stickyBookingFooter.classList.remove("show");
+            }
+        }
+
+        // 点击按钮时，平滑滚动到页面顶部
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
