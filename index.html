@@ -25,12 +25,11 @@
             }
         }
         
-        /* Global Reset for Full-width Backgrounds (关键修复 1: 确保背景图铺满全屏) */
+        /* Global Reset for Full-width Backgrounds */
         body {
-            /* 关键修复：移除默认边距，确保背景图能从边缘开始 */
             margin: 0;
             padding: 0;
-            overflow-x: hidden; /* 防止横向滚动条出现 */
+            overflow-x: hidden;
         }
         
         /* Custom scroll-to-top button styling (Black/White Theme) */
@@ -76,15 +75,14 @@
 
         /* Hero section background image styling */
         .hero-section {
-            /* **路径修复：使用 homepage.png**（根据您 GitHub 仓库的文件名） */
+            /* **路径修复：使用 homepage.png** */
             background-image: url('./assets/homepage.png'); 
-            background-size: cover; /* 确保图片覆盖整个容器 */
+            background-size: cover;
             background-position: center;
             background-attachment: fixed; 
             background-repeat: no-repeat;
             position: relative;
             z-index: 1; 
-            /* 确保背景图填满屏幕高度 */
             height: 100vh; 
         }
         .hero-section::before {
@@ -128,11 +126,15 @@
             color: #ffffff; 
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
         }
+        
+        /* 强制 Logo 居中，并提供阴影，使其在背景上更突出 */
+        .logo-img {
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.9));
+        }
 
     </style>
 </head>
 <body class="bg-white text-gray-800 font-sans antialiased m-0 p-0">
-    <!-- 关键修复 2: 移除原来的 <main> 标签（它有最大宽度限制），使用一个简单的 div 容器 -->
     <div> 
 
         <!-- Scroll to Top Button -->
@@ -143,18 +145,17 @@
         <!-- Section 1: Hero - Brand Logo & Main Links with Background Image -->
         <section class="hero-section h-screen flex flex-col justify-center items-center text-center">
             
-            <!-- Logo Container (关键修复 3: 将 Logo 放在一个白色卡片中，消除 Logo 自身的白框问题) -->
-            <div class="bg-white p-8 rounded-xl shadow-2xl mb-12 transform scale-105">
-                <img id="mainLogo"
-                     src="./assets/Logo.png" 
-                     alt="NailsbyLittleboo Salon Logo" 
-                     class="w-full max-w-xs"
-                     onerror="handleLogoError()">
-                
-                <!-- Logo Fallback Text (Hidden initially) -->
-                <div id="logoTextFallback" class="hidden logo-fallback">
-                    NailsbyLittleboo Salon
-                </div>
+            <!-- Logo Image (关键修复：移除白色卡片，使用透明背景的 Logo 公共链接) -->
+            <!-- 路径已改为新的公共链接，以确保裁剪后的透明图立即显示 -->
+            <img id="mainLogo"
+                 src="https://storage.googleapis.com/assistive_canvas_assets/image_fix_logo_transparent.png" 
+                 alt="NailsbyLittleboo Salon Logo" 
+                 class="w-full max-w-sm md:max-w-md lg:max-w-xl mb-16 logo-img"
+                 onerror="handleLogoError()">
+            
+            <!-- Logo Fallback Text (Hidden initially) -->
+            <div id="logoTextFallback" class="hidden logo-fallback">
+                NailsbyLittleboo Salon
             </div>
             
             <div class="flex space-x-4 mt-4">
@@ -174,7 +175,6 @@
         </section>
 
         <!-- Section 2: Menu -->
-        <!-- 保持内部内容的最大宽度，使其在全宽页面上保持居中和易读 -->
         <section id="menu" class="py-24 bg-white border-b border-accent-gray">
             <div class="max-w-4xl mx-auto px-6">
                 <h2 class="text-5xl font-light text-center text-dark-gray mb-16">Our Services</h2>
@@ -189,7 +189,6 @@
                             Includes nail shaping, cuticle care, light massage, and a perfect application of long-lasting gel polish. Choose from our wide range of colors.
                         </p>
                         <span class="text-2xl font-bold text-dark-gray">From $XX</span>
-                        <!-- Replace XX with actual price -->
                     </div>
 
                     <!-- Classic Gel Pedicure -->
@@ -201,7 +200,6 @@
                             Indulge in our soothing foot soak, gentle exfoliation, cuticle and callus care, relaxing foot massage, and a flawless gel polish finish.
                         </p>
                         <span class="text-2xl font-bold text-dark-gray">From $XX</span>
-                        <!-- Replace XX with actual price -->
                     </div>
                 </div>
 
