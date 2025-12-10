@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nails By Little Boo Salon</title>
+    <title>Nailsbylittleboo Salon</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display (指定字体) & Lato (辅助阅读) -->
+    <!-- Google Fonts: Playfair Display & Lato -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -14,16 +14,16 @@
     <style>
         /* AESOP 风格配色与排版设置 */
         :root {
-            --bg-cream: #F7F2ED; /* 类似 Aesop 的米杏色 */
+            --bg-cream: #F7F2ED; 
             --text-black: #222222;
         }
         body {
             background-color: var(--bg-cream);
             color: var(--text-black);
-            font-family: 'Lato', sans-serif; /* 正文用无衬线，易读 */
+            font-family: 'Lato', sans-serif;
         }
         h1, h2, h3, h4, .nav-link, .serif-font {
-            font-family: 'Playfair Display', serif; /* 标题和导航用指定字体 */
+            font-family: 'Playfair Display', serif;
         }
         
         /* 图片悬停放大效果 */
@@ -34,7 +34,7 @@
             transform: scale(1.03);
         }
 
-        /* 隐藏滚动条但允许滚动 (可选，为了美观) */
+        /* 隐藏滚动条 */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -47,29 +47,26 @@
 <body class="antialiased">
 
     <!-- 1. FULL SCREEN HERO SECTION -->
-    <!-- 既然要求 homepage 直接覆盖第一页，我们把导航放在图片之上 -->
     <section id="home" class="relative w-full h-screen overflow-hidden">
         <!-- 背景图 -->
         <div class="absolute inset-0">
             <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" 
                  alt="Salon Interior" 
                  class="w-full h-full object-cover">
-            <!-- 黑色遮罩，确保文字看得清 -->
-            <div class="absolute inset-0 bg-black/30"></div>
+            <div class="absolute inset-0 bg-black/40"></div>
         </div>
 
         <!-- 居中内容 & 导航 -->
         <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
             
-            <!-- Logo (大) -->
+            <!-- Logo -->
             <div class="mb-12">
                  <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" 
-                      alt="Nails By Little Boo" 
-                      class="h-24 md:h-32 w-auto mx-auto filter brightness-0 invert"> 
-                 <!-- filter让logo变白适应深色背景，如果你原图是金色且背景够深，可以去掉 filter -->
+                      alt="Nailsbylittleboo Logo" 
+                      class="h-24 md:h-36 w-auto mx-auto"> 
             </div>
 
-            <!-- 6个 Sections 导航 (点击跳转) -->
+            <!-- 导航 -->
             <nav class="flex flex-col md:flex-row gap-6 md:gap-12 text-lg md:text-xl tracking-widest uppercase">
                 <a href="#story" class="nav-link hover:text-yellow-200 transition border-b border-transparent hover:border-yellow-200 pb-1">Our Story</a>
                 <a href="#services" class="nav-link hover:text-yellow-200 transition border-b border-transparent hover:border-yellow-200 pb-1">Services</a>
@@ -79,7 +76,6 @@
                 <a href="#contact" class="nav-link hover:text-yellow-200 transition border-b border-transparent hover:border-yellow-200 pb-1">Contact Us</a>
             </nav>
 
-            <!-- 向下滚动提示 -->
             <div class="absolute bottom-10 animate-bounce">
                 <i class="fas fa-chevron-down text-2xl"></i>
             </div>
@@ -94,15 +90,15 @@
                 <div class="order-2 md:order-1">
                     <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/oldlittleboo.png" 
                          alt="Our Early Days" 
-                         class="w-full shadow-lg rounded-sm grayscale hover:grayscale-0 transition duration-700">
+                         class="w-full shadow-lg rounded-sm">
                     <p class="text-xs text-gray-500 mt-2 italic text-center">Circa 2014, where it all began.</p>
                 </div>
-                <!-- 文字区域 (Aesop 风格排版) -->
+                <!-- 文字区域 -->
                 <div class="order-1 md:order-2">
                     <h2 class="text-4xl md:text-5xl mb-8 serif-font">The Journey</h2>
                     <div class="w-12 h-0.5 bg-black mb-8"></div>
                     <p class="text-lg leading-relaxed text-gray-700 mb-6 font-light">
-                        It started with a simple passion in 2014. From a humble home-based service, providing manicures with nothing but enthusiasm and a small kit, <span class="serif-font font-bold">Nails By Little Boo</span> was born.
+                        It started with a simple passion in 2014. From a humble home-based service, providing manicures with nothing but enthusiasm and a small kit, <span class="serif-font font-bold">Nailsbylittleboo Salon</span> was born.
                     </p>
                     <p class="text-lg leading-relaxed text-gray-700 mb-6 font-light">
                         Through years of relentless learning, attending masterclasses, and refining our craft, we officially opened our doors in 2019. 
@@ -120,7 +116,6 @@
         <div class="container mx-auto px-6 max-w-6xl text-center">
             <h2 class="text-3xl md:text-4xl mb-12 serif-font tracking-wide">Our Services</h2>
             
-            <!-- Menu Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Menu Item 1 -->
                 <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md">
@@ -154,9 +149,8 @@
             <p class="text-gray-600 mb-10 max-w-xl mx-auto">Explore our latest nail art designs and customer features on Instagram.</p>
             
             <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="group relative inline-block">
-                <!-- 模拟一个 IG Feed 的感觉，这里我暂时用几张占位图，或者复用你的 homepage 图做拼贴 -->
+                <!-- IG Feed 占位图 -->
                 <div class="grid grid-cols-3 gap-2 max-w-3xl mx-auto opacity-80 group-hover:opacity-100 transition duration-500">
-                     <!-- 这里为了演示效果，复用了 homepage 图，实际应该截取几张好看的指甲图放进 assets -->
                     <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" class="h-40 w-full object-cover">
                     <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" class="h-40 w-full object-cover">
                     <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" class="h-40 w-full object-cover">
@@ -172,59 +166,57 @@
         </div>
     </section>
 
-    <!-- 5. MANICURISTS -->
+    <!-- 5. MANICURISTS (已更新文件名) -->
     <section id="manicurists" class="py-20 md:py-32">
         <div class="container mx-auto px-6 max-w-6xl">
             <h2 class="text-3xl md:text-4xl mb-16 serif-font text-center">Our Manicurists</h2>
             
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
-                <!-- 循环展示美甲师 -->
-                <!-- 注意：这里假设你的图片已经是 png 格式且名字正确。如果有空格，URL里要写 %20 -->
                 
-                <!-- 1 -->
+                <!-- 1. Pei Ying (PY.JPG) -->
                 <div class="group">
                     <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/Pei%20Ying.png" alt="Pei Ying" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/PY.JPG" alt="Pei Ying" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <h3 class="text-lg serif-font border-b border-transparent group-hover:border-black inline-block pb-1">Pei Ying</h3>
                 </div>
 
-                <!-- 2 -->
+                <!-- 2. Shean Yuan (SY.JPG) -->
                 <div class="group">
                     <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/Shean%20Yuan.png" alt="Shean Yuan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/SY.JPG" alt="Shean Yuan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <h3 class="text-lg serif-font border-b border-transparent group-hover:border-black inline-block pb-1">Shean Yuan</h3>
                 </div>
 
-                <!-- 3 -->
+                <!-- 3. Ke Xin (KX.JPG) -->
                 <div class="group">
                     <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/Ke%20Xin.png" alt="Ke Xin" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/KX.JPG" alt="Ke Xin" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <h3 class="text-lg serif-font border-b border-transparent group-hover:border-black inline-block pb-1">Ke Xin</h3>
                 </div>
 
-                <!-- 4 -->
+                <!-- 4. Ivy (Ivy.JPG) -->
                 <div class="group">
                     <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/Ivy.png" alt="Ivy" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/Ivy.JPG" alt="Ivy" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <h3 class="text-lg serif-font border-b border-transparent group-hover:border-black inline-block pb-1">Ivy</h3>
                 </div>
 
-                <!-- 5 -->
+                <!-- 5. Jayee (JY.JPG) -->
                 <div class="group">
                     <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/Jayee.png" alt="Jayee" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/JY.JPG" alt="Jayee" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <h3 class="text-lg serif-font border-b border-transparent group-hover:border-black inline-block pb-1">Jayee</h3>
                 </div>
 
-                <!-- 6 -->
+                <!-- 6. Wen Jing (WJ.JPG) -->
                 <div class="group">
                     <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/Wen%20Jing.png" alt="Wen Jing" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/WJ.JPG" alt="Wen Jing" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                     </div>
                     <h3 class="text-lg serif-font border-b border-transparent group-hover:border-black inline-block pb-1">Wen Jing</h3>
                 </div>
@@ -249,7 +241,7 @@
                 <div>
                     <h2 class="text-3xl text-white serif-font mb-8">Contact Us</h2>
                     <p class="mb-6 leading-relaxed">
-                        <strong class="text-white block mb-2">NAILS BY LITTLE BOO SALON</strong>
+                        <strong class="text-white block mb-2">NAILSBYLITTLEBOO SALON</strong>
                         B-05-21 Sunway Geo Avenue,<br>
                         Jalan Lagoon Selatan Bandar Sunway,<br>
                         47500 Subang Jaya, Selangor, Malaysia.
@@ -274,7 +266,7 @@
                     </div>
                     
                     <div class="mt-12 text-sm text-gray-600">
-                        <p>&copy; 2025 Nails By Little Boo Salon. All rights reserved.</p>
+                        <p>&copy; 2025 Nailsbylittleboo Salon. All rights reserved.</p>
                     </div>
                 </div>
             </div>
