@@ -16,7 +16,6 @@
         :root {
             --bg-cream: #F7F2ED; 
             --text-black: #222222;
-            --gold: #C5A065; /* 配合Logo的金色 */
         }
         body {
             background-color: var(--bg-cream);
@@ -32,7 +31,7 @@
             position: relative;
             text-decoration: none;
             color: #333;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             font-weight: 600;
@@ -62,21 +61,47 @@
         /* 隐藏滚动条 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* WhatsApp 悬浮按钮动画 */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .whatsapp-float:hover {
+            background-color: #1ebc57;
+            transform: scale(1.1);
+        }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased pb-12">
 
     <!-- 1. HEADER (顶部 Logo + 导航) -->
-    <header class="w-full pt-6 pb-6 px-8 md:px-12 flex flex-col md:flex-row justify-between items-center bg-[#F7F2ED]">
-        <!-- 左侧 Logo (稍微调小) -->
+    <header class="sticky top-0 z-50 w-full pt-4 pb-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center bg-[#F7F2ED]/95 backdrop-blur-sm border-b border-gray-200/50">
+        <!-- Logo -->
         <div class="mb-4 md:mb-0">
-             <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" 
-                  alt="Nailsbylittleboo Logo" 
-                  class="h-16 w-auto"> 
+             <a href="#">
+                 <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" 
+                      alt="Nailsbylittleboo Logo" 
+                      class="h-12 md:h-16 w-auto"> 
+             </a>
         </div>
 
-        <!-- 右侧 导航菜单 (横向排列) -->
-        <nav class="flex gap-6 md:gap-10 text-sm md:text-base">
+        <!-- 导航菜单 -->
+        <nav class="flex gap-4 md:gap-8 text-xs md:text-sm flex-wrap justify-center">
             <a href="#story" class="nav-link">Our Story</a>
             <a href="#services" class="nav-link">Services</a>
             <a href="#gallery" class="nav-link">Gallery</a>
@@ -86,9 +111,10 @@
         </nav>
     </header>
 
-    <!-- 2. HERO IMAGE (像截图那样，图片在下方) -->
-    <section class="w-full px-4 md:px-12 pb-12">
-        <div class="w-full h-[60vh] md:h-[80vh] overflow-hidden shadow-sm">
+    <!-- 2. HERO IMAGE -->
+    <!-- 图片在下方，像画框一样展示 -->
+    <section class="w-full px-4 md:px-12 py-8">
+        <div class="w-full h-[50vh] md:h-[75vh] overflow-hidden shadow-sm">
              <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" 
                   alt="Salon Interior" 
                   class="w-full h-full object-cover object-center">
@@ -96,9 +122,9 @@
     </section>
 
     <!-- 3. OUR STORY -->
-    <section id="story" class="py-20 md:py-32">
-        <div class="container mx-auto px-6 max-w-6xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+    <section id="story" class="py-20 md:py-24">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <!-- 图片 -->
                 <div class="order-2 md:order-1">
                     <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/oldlittleboo.png" 
@@ -107,16 +133,16 @@
                     <p class="text-xs text-gray-500 mt-2 italic text-center">Circa 2014, where it all began.</p>
                 </div>
                 <!-- 文字 -->
-                <div class="order-1 md:order-2">
-                    <h2 class="text-4xl md:text-5xl mb-8 serif-font">The Journey</h2>
-                    <div class="w-12 h-0.5 bg-black mb-8"></div>
-                    <p class="text-lg leading-relaxed text-gray-700 mb-6 font-light">
+                <div class="order-1 md:order-2 pl-0 md:pl-10">
+                    <h2 class="text-3xl md:text-4xl mb-6 serif-font">The Journey</h2>
+                    <div class="w-10 h-px bg-black mb-6"></div>
+                    <p class="text-base md:text-lg leading-relaxed text-gray-700 mb-6 font-light">
                         It started with a simple passion in 2014. From a humble home-based service, providing manicures with nothing but enthusiasm and a small kit, <span class="serif-font font-bold">Nailsbylittleboo Salon</span> was born.
                     </p>
-                    <p class="text-lg leading-relaxed text-gray-700 mb-6 font-light">
+                    <p class="text-base md:text-lg leading-relaxed text-gray-700 mb-6 font-light">
                         Through years of relentless learning, attending masterclasses, and refining our craft, we officially opened our doors in 2019. 
                     </p>
-                    <p class="text-lg leading-relaxed text-gray-700 font-light">
+                    <p class="text-base md:text-lg leading-relaxed text-gray-700 font-light">
                         Today, we are proud to be a team of 10 professional manicurists. We are a collective of artists who believe that a manicure is not just a service—it is a detail of refinement in your daily life.
                     </p>
                 </div>
@@ -125,7 +151,7 @@
     </section>
 
     <!-- 4. SERVICES -->
-    <section id="services" class="py-20">
+    <section id="services" class="py-20 bg-[#F7F2ED]">
         <div class="container mx-auto px-6 max-w-6xl text-center">
             <h2 class="text-3xl md:text-4xl mb-12 serif-font tracking-wide">Our Services</h2>
             
@@ -140,4 +166,149 @@
                     <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%20pedi.jpeg" alt="Pedi Normal" class="w-full h-auto zoom-img">
                 </div>
                 <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md">
-                    <img src
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%20without%20gel.jpeg" alt="Menu Without Gel" class="w-full h-auto zoom-img">
+                </div>
+            </div>
+            <p class="mt-8 text-gray-500 text-sm">Click menu to enlarge.</p>
+        </div>
+    </section>
+
+    <!-- 5. GALLERY (实时 IG 占位) -->
+    <section id="gallery" class="py-20 border-t border-gray-200">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl mb-4 serif-font">Gallery</h2>
+            <p class="text-gray-500 mb-10 tracking-widest uppercase text-xs">Follow us on Instagram @nailsbylittleboo</p>
+            
+            <!-- 这里是 IG Widget 的位置 -->
+            <!-- 将来如果你申请了 Behold.so 或 Elfsight，把它们给你的代码粘贴在这里即可 -->
+            <!-- 目前先用静态图展示 -->
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+                <!-- 这里的图片将来会被 Widget 替换，现在作为静态展示 -->
+                <div class="aspect-square bg-gray-200 overflow-hidden">
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" class="w-full h-full object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="aspect-square bg-gray-200 overflow-hidden">
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" class="w-full h-full object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="aspect-square bg-gray-200 overflow-hidden">
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" class="w-full h-full object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="aspect-square bg-gray-200 overflow-hidden">
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" class="w-full h-full object-cover hover:scale-110 transition duration-500">
+                </div>
+            </div>
+
+            <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="inline-block mt-10 border border-black px-8 py-3 text-sm hover:bg-black hover:text-white transition uppercase tracking-widest">
+                View Instagram
+            </a>
+        </div>
+    </section>
+
+    <!-- 6. MANICURISTS -->
+    <section id="manicurists" class="py-20">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <h2 class="text-3xl md:text-4xl mb-16 serif-font text-center">Our Manicurists</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
+                <!-- 1. PY -->
+                <div class="group">
+                    <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4 shadow-sm">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/PY.JPG" alt="Pei Ying" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="text-lg serif-font pb-1">Pei Ying</h3>
+                </div>
+                <!-- 2. SY -->
+                <div class="group">
+                    <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4 shadow-sm">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/SY.JPG" alt="Shean Yuan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="text-lg serif-font pb-1">Shean Yuan</h3>
+                </div>
+                <!-- 3. KX -->
+                <div class="group">
+                    <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4 shadow-sm">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/KX.JPG" alt="Ke Xin" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="text-lg serif-font pb-1">Ke Xin</h3>
+                </div>
+                <!-- 4. Ivy -->
+                <div class="group">
+                    <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4 shadow-sm">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/Ivy.JPG" alt="Ivy" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="text-lg serif-font pb-1">Ivy</h3>
+                </div>
+                <!-- 5. JY -->
+                <div class="group">
+                    <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4 shadow-sm">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/JY.JPG" alt="Jayee" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="text-lg serif-font pb-1">Jayee</h3>
+                </div>
+                <!-- 6. WJ -->
+                <div class="group">
+                    <div class="aspect-[3/4] overflow-hidden bg-gray-200 mb-4 shadow-sm">
+                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/WJ.JPG" alt="Wen Jing" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="text-lg serif-font pb-1">Wen Jing</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. NAIL COURSE -->
+    <section id="course" class="py-24 border-t border-gray-200">
+        <div class="container mx-auto text-center px-6">
+            <h2 class="text-3xl serif-font mb-4">Nail Course</h2>
+            <p class="text-gray-500 tracking-widest uppercase text-sm">Coming Soon</p>
+        </div>
+    </section>
+
+    <!-- 8. CONTACT US (底色保持米杏色) -->
+    <section id="contact" class="py-20 border-t border-gray-300">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- 左边 -->
+                <div>
+                    <h2 class="text-3xl text-black serif-font mb-8">Contact Us</h2>
+                    <p class="mb-6 leading-relaxed text-gray-700">
+                        <strong class="text-black block mb-2 serif-font tracking-wide">NAILSBYLITTLEBOO SALON</strong>
+                        B-05-21 Sunway Geo Avenue,<br>
+                        Jalan Lagoon Selatan Bandar Sunway,<br>
+                        47500 Subang Jaya, Selangor, Malaysia.
+                    </p>
+                    <a href="https://wa.me/60183887390" class="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition duration-300 mb-8 text-sm uppercase">
+                        WhatsApp Us
+                    </a>
+                </div>
+
+                <!-- 右边：营业时间 -->
+                <div class="md:text-right">
+                    <h3 class="text-xl text-black serif-font mb-6">Operating Hours</h3>
+                    <div class="space-y-2 font-light text-gray-700">
+                        <div class="flex justify-between md:justify-end gap-8">
+                            <span>Monday - Friday</span>
+                            <span class="font-medium">11am - 6:30pm</span>
+                        </div>
+                        <div class="flex justify-between md:justify-end gap-8">
+                            <span>Saturday - Sunday</span>
+                            <span class="font-medium">9am - 4:30pm</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 text-xs text-gray-400">
+                        <p>&copy; 2025 Nailsbylittleboo Salon. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 悬浮 WhatsApp 按钮 -->
+    <a href="https://wa.me/60183887390" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+</body>
+</html>
