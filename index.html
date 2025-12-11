@@ -112,7 +112,6 @@
     </header>
 
     <!-- 2. HERO IMAGE -->
-    <!-- 图片在下方，像画框一样展示 -->
     <section class="w-full px-4 md:px-12 py-8">
         <div class="w-full h-[50vh] md:h-[75vh] overflow-hidden shadow-sm">
              <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" 
@@ -150,41 +149,48 @@
         </div>
     </section>
 
-    <!-- 4. SERVICES -->
+    <!-- 4. SERVICES (MENU) - UPDATED V6 -->
     <section id="services" class="py-20 bg-[#F7F2ED]">
         <div class="container mx-auto px-6 max-w-6xl text-center">
             <h2 class="text-3xl md:text-4xl mb-12 serif-font tracking-wide">Our Services</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- 这里使用了 Grid 布局：手机1列，电脑3列 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Menu 1 -->
                 <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%20callus%20care%20treatment.jpeg" alt="Callus Care" class="w-full h-auto zoom-img">
+                    <!-- 注意：这里假设是 .jpeg 格式，如果你的图片是 .png 请改为 .png -->
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%201.jpeg" 
+                         alt="Menu 1" class="w-full h-auto zoom-img">
                 </div>
+
+                <!-- Menu 2 -->
                 <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%20pedi%20gel.jpeg" alt="Pedi Gel" class="w-full h-auto zoom-img">
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%202.jpeg" 
+                         alt="Menu 2" class="w-full h-auto zoom-img">
                 </div>
+
+                <!-- Menu 3 -->
                 <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%20pedi.jpeg" alt="Pedi Normal" class="w-full h-auto zoom-img">
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%203.jpeg" 
+                         alt="Menu 3" class="w-full h-auto zoom-img">
                 </div>
-                <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%20without%20gel.jpeg" alt="Menu Without Gel" class="w-full h-auto zoom-img">
-                </div>
+
             </div>
             <p class="mt-8 text-gray-500 text-sm">Click menu to enlarge.</p>
         </div>
     </section>
 
-    <!-- 5. GALLERY (实时 IG 占位) -->
+    <!-- 5. GALLERY (Widget Ready) -->
     <section id="gallery" class="py-20 border-t border-gray-200">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl md:text-4xl mb-4 serif-font">Gallery</h2>
             <p class="text-gray-500 mb-10 tracking-widest uppercase text-xs">Follow us on Instagram @nailsbylittleboo</p>
             
-            <!-- 这里是 IG Widget 的位置 -->
-            <!-- 将来如果你申请了 Behold.so 或 Elfsight，把它们给你的代码粘贴在这里即可 -->
-            <!-- 目前先用静态图展示 -->
-            
+            <!-- 这里预留给你的 Behold.so Widget -->
+            <!-- 拿到代码后，替换下面这个 grid div -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
-                <!-- 这里的图片将来会被 Widget 替换，现在作为静态展示 -->
+                <!-- 静态占位图 -->
                 <div class="aspect-square bg-gray-200 overflow-hidden">
                     <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/homepage.png" class="w-full h-full object-cover hover:scale-110 transition duration-500">
                 </div>
@@ -265,7 +271,7 @@
         </div>
     </section>
 
-    <!-- 8. CONTACT US (底色保持米杏色) -->
+    <!-- 8. CONTACT US -->
     <section id="contact" class="py-20 border-t border-gray-300">
         <div class="container mx-auto px-6 max-w-5xl">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
