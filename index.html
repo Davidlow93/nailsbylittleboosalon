@@ -32,7 +32,6 @@
 </head>
 <body class="antialiased pb-12" x-data="{ 
     lightboxOpen: false, activeImage: '', 
-    // Menu 图片组
     menuImages: [
         'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%201.png',
         'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%202.png',
@@ -40,62 +39,44 @@
         'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%204.png'
     ],
     currentIndex: 0,
-    // 打开 Menu 的 Lightbox (支持左右滑动)
     openLightbox(index) { this.currentIndex = index; this.activeImage = this.menuImages[index]; this.lightboxOpen = true; },
-    // 打开单张图片的 Lightbox (用于 Hero 图片)
     openSingleImage(url) { this.activeImage = url; this.lightboxOpen = true; },
-    
     closeLightbox() { this.lightboxOpen = false; },
-    
-    // 这里的 next/prev 逻辑主要用于 Menu 组
-    nextImage() { 
-        // 只有当当前图片在 menuImages 数组里时才切图，防止 Hero 图片报错
-        if(this.menuImages.includes(this.activeImage)) {
-            this.currentIndex = (this.currentIndex + 1) % this.menuImages.length; 
-            this.activeImage = this.menuImages[this.currentIndex]; 
-        }
-    },
-    prevImage() { 
-        if(this.menuImages.includes(this.activeImage)) {
-            this.currentIndex = (this.currentIndex - 1 + this.menuImages.length) % this.menuImages.length; 
-            this.activeImage = this.menuImages[this.currentIndex]; 
-        }
-    }
+    nextImage() { if(this.menuImages.includes(this.activeImage)) { this.currentIndex = (this.currentIndex + 1) % this.menuImages.length; this.activeImage = this.menuImages[this.currentIndex]; } },
+    prevImage() { if(this.menuImages.includes(this.activeImage)) { this.currentIndex = (this.currentIndex - 1 + this.menuImages.length) % this.menuImages.length; this.activeImage = this.menuImages[this.currentIndex]; } }
 }">
 
-    <!-- Lightbox (预览层) -->
+    <!-- Lightbox -->
     <div x-show="lightboxOpen" x-transition.opacity class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center" x-cloak>
         <button @click="closeLightbox()" class="absolute top-6 right-6 text-white text-4xl hover:text-gray-300 z-50"><i class="fas fa-times"></i></button>
-        
-        <!-- 只有在看 Menu 时才显示左右箭头 -->
         <button x-show="menuImages.includes(activeImage)" @click.stop="prevImage()" class="absolute left-2 md:left-8 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-left"></i></button>
-        
         <img :src="activeImage" class="max-h-[90vh] max-w-[95vw] object-contain shadow-2xl">
-        
         <button x-show="menuImages.includes(activeImage)" @click.stop="nextImage()" class="absolute right-2 md:right-8 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-right"></i></button>
     </div>
 
-    <!-- HEADER (Fixed Top) -->
-    <div class="pt-[88px] md:pt-[100px]">
-        <header class="fixed top-0 left-0 right-0 z-50 w-full bg-[#F7F2ED] border-b border-gray-300 shadow-sm flex flex-col md:flex-row justify-between items-center px-6 md:px-12 py-3 md:py-4">
-            <div class="mb-3 md:mb-0">
-                 <a href="#">
-                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" alt="Logo" class="h-14 md:h-16 w-auto">
-                 </a>
-            </div>
-            <nav class="flex gap-4 md:gap-8 text-xs md:text-sm flex-wrap justify-center font-medium tracking-widest text-gray-700">
-                <a href="#gallery" class="nav-link">Art Gallery</a>
-                <a href="#services" class="nav-link">Our Services</a>
-                <a href="#artists" class="nav-link">Our Artists</a>
-                <a href="#course" class="nav-link">Nail Course</a>
-                <a href="#story" class="nav-link">Our Story</a>
-                <a href="#contact" class="nav-link">Contact Us</a>
-            </nav>
-        </header>
-    </div>
+    <!-- HEADER (Height fixed to h-24 = 96px) -->
+    <header class="fixed top-0 left-0 right-0 z-50 w-full h-24 bg-[#F7F2ED] border-b border-gray-300 shadow-sm flex flex-col md:flex-row justify-between items-center px-6 md:px-12 box-border">
+        <div class="h-full flex items-center pt-2">
+             <a href="#">
+                <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" 
+                     alt="Logo" 
+                     class="h-16 w-auto object-contain">
+             </a>
+        </div>
+        <nav class="flex gap-4 md:gap-8 text-xs md:text-sm flex-wrap justify-center font-medium tracking-widest text-gray-700 pb-2 md:pb-0">
+            <a href="#gallery" class="nav-link">Art Gallery</a>
+            <a href="#services" class="nav-link">Our Services</a>
+            <a href="#artists" class="nav-link">Our Artists</a>
+            <a href="#course" class="nav-link">Nail Course</a>
+            <a href="#story" class="nav-link">Our Story</a>
+            <a href="#contact" class="nav-link">Contact Us</a>
+        </nav>
+    </header>
+
     <!-- FULL SCREEN HERO SLIDER -->
-    <!-- 设置 timer 为 6000 (6秒) -->
-    <section class="relative w-full h-[calc(100vh-100px)] overflow-hidden bg-gray-900 group" 
+    <!-- margin-top: 6rem (h-24) to exactly match header height, removing gap -->
+    <!-- translate-y-32: 内容大幅下移 -->
+    <section class="relative w-full h-[calc(100vh-6rem)] mt-24 overflow-hidden bg-gray-900 group" 
              x-data="{ 
                 currentSlide: 0, 
                 slides: ['hp1.png', 'hp2.png', 'hp3.png', 'hp4.png', 'hp5.png'],
@@ -107,7 +88,6 @@
              x-init="startTimer()">
         
         <template x-for="(slide, index) in slides" :key="index">
-            <!-- 增加 cursor-pointer 和 @click 来实现点击放大 -->
             <div class="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out cursor-pointer"
                  x-show="currentSlide === index"
                  x-transition:enter="transition ease-out duration-[1500ms]"
@@ -117,14 +97,13 @@
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
                  @click="openSingleImage('https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/' + slide)">
-                 
                 <img :src="'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/' + slide" class="w-full h-full object-cover object-center">
                 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition duration-500"></div>
             </div>
         </template>
         
-        <!-- 文字内容 (增加 translate-y-12 往下移) -->
-        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 px-4 text-center pointer-events-none translate-y-12">
+        <!-- 内容位置调整: translate-y-32 -->
+        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 px-4 text-center pointer-events-none translate-y-32">
             <h1 class="text-white text-xl md:text-2xl font-normal serif-font tracking-[0.2em] uppercase drop-shadow-md opacity-90 whitespace-nowrap">
                 Premium Japanese Nail Art Salon
             </h1>
@@ -135,7 +114,6 @@
             </a>
         </div>
 
-        <!-- 底部圆点导航 (Dots) -->
         <div class="absolute bottom-8 left-0 right-0 z-20 flex justify-center gap-3">
             <template x-for="(slide, index) in slides">
                 <button @click="setSlide(index)"
@@ -146,19 +124,19 @@
         </div>
     </section>
 
-    <!-- 1. ART GALLERY (Elfsight + Combined Button) -->
-    <section id="gallery" class="py-20 bg-[#F7F2ED]">
+    <!-- 1. ART GALLERY (Compact Version) -->
+    <!-- 减小 padding: py-8 -->
+    <section id="gallery" class="py-8 bg-[#F7F2ED]">
         <div class="container mx-auto px-0 md:px-6 text-center">
             <h2 class="text-3xl md:text-4xl mb-4 serif-font">Art Gallery</h2>
-            <p class="text-gray-500 mb-10 tracking-widest uppercase text-xs">Follow us on Instagram @nailsbylittleboo</p>
+            <p class="text-gray-500 mb-6 tracking-widest uppercase text-xs">Follow us on Instagram @nailsbylittleboo</p>
             
             <div class="w-full max-w-7xl mx-auto overflow-hidden">
                 <script src="https://elfsightcdn.com/platform.js" async></script>
                 <div class="elfsight-app-ecf4cf75-bd8e-436d-be60-0f299a9d4861" data-elfsight-app-lazy></div>
             </div>
 
-            <!-- 合并后的按钮 -->
-            <div class="mt-12 flex justify-center">
+            <div class="mt-8 flex justify-center">
                  <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" 
                     class="px-8 py-3 bg-black text-white text-xs uppercase tracking-[0.2em] hover:bg-gray-800 transition shadow-md">
                     Show More & Follow
@@ -166,7 +144,6 @@
             </div>
         </div>
     </section>
-
     <!-- 2. OUR SERVICES -->
     <section id="services" class="py-20 border-t border-gray-200">
         <div class="container mx-auto px-6 max-w-7xl text-center">
@@ -186,76 +163,107 @@
         <div class="container mx-auto px-6 max-w-7xl">
             <h2 class="text-3xl md:text-4xl mb-16 serif-font text-center">Our Artists</h2>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-6 text-center">
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/boo.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font mb-2">Boo</h3>
-                    <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/sy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font mb-2">Shean Yuan</h3>
-                    <a href="https://www.instagram.com/salon_de_mie?igsh=dm45eXd3bTBxa2Yx" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/py.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font mb-2">Pei Ying</h3>
-                    <a href="https://www.instagram.com/popeye.nailsart?igsh=OW9xNnRmYjA2bDJj" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/kx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font mb-2">Ke Xin</h3>
-                    <a href="https://www.instagram.com/_xinnails?igsh=YWhneTFqM3R3emds" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/ivy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font mb-2">Ivy</h3>
-                    <a href="https://www.instagram.com/ivnails_nailsbylittleboo?igsh=a21hZXF5ZzhxMXNk" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/gs.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font mb-2">Gisselle</h3>
-                    <a href="https://www.instagram.com/yimagine.nails?igsh=MTQxaWhkMGZhZm55bQ==" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/jy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font">Jayee</h3>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/wj.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font">Wen Jing</h3>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/yx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font">Yi Xuan</h3>
-                </div>
-                <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/tt.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
-                    <h3 class="text-lg serif-font">Ting Ting</h3>
-                </div>
+                <!-- Artists List (Code retained) -->
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/boo.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Boo</h3><a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/sy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Shean Yuan</h3><a href="https://www.instagram.com/salon_de_mie?igsh=dm45eXd3bTBxa2Yx" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/py.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Pei Ying</h3><a href="https://www.instagram.com/popeye.nailsart?igsh=OW9xNnRmYjA2bDJj" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/kx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Ke Xin</h3><a href="https://www.instagram.com/_xinnails?igsh=YWhneTFqM3R3emds" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/ivy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Ivy</h3><a href="https://www.instagram.com/ivnails_nailsbylittleboo?igsh=a21hZXF5ZzhxMXNk" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/gs.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Gisselle</h3><a href="https://www.instagram.com/yimagine.nails?igsh=MTQxaWhkMGZhZm55bQ==" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/jy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font">Jayee</h3></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/wj.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font">Wen Jing</h3></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/yx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font">Yi Xuan</h3></div>
+                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/tt.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font">Ting Ting</h3></div>
             </div>
         </div>
     </section>
 
-    <!-- 4. NAIL COURSE -->
-    <section id="course" class="py-24 bg-[#F7F2ED] border-t border-gray-200">
-        <div class="container mx-auto text-center px-6"><h2 class="text-3xl serif-font mb-4">Nail Course</h2><p class="text-gray-500 tracking-widest uppercase text-sm">Coming Soon</p></div>
-    </section>
-
-    <!-- 5. OUR STORY -->
-    <section id="story" class="py-20 md:py-24 border-t border-gray-200">
-        <div class="container mx-auto px-6 max-w-5xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="order-2 md:order-1">
-                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/oldlittleboo.png" class="w-full shadow-lg rounded-sm">
-                    <p class="text-xs text-gray-500 mt-2 italic text-center">Circa 2014, where it all began.</p>
+    <!-- 4. NAIL COURSE (NEW LAYOUT) -->
+    <section id="course" class="py-20 bg-[#F7F2ED] border-t border-gray-200">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <h2 class="text-3xl md:text-4xl mb-12 serif-font text-center">Nail Course</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <!-- 1. Design Class -->
+                <div class="bg-white p-6 shadow-sm hover:shadow-md transition text-center group">
+                    <div class="aspect-square overflow-hidden mb-4 bg-gray-100"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/sj1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <h3 class="text-xl serif-font font-bold mb-2">Design Class</h3>
+                    <p class="text-xs text-gray-500 mb-4 uppercase tracking-wide">Shean Yuan / Pei Ying / Ke Xin</p>
+                    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODgxNzkxNzE3MzkxMDQ2?story_media_id=3428290401449686665&igsh=MTNpNmo1MDc0aHRmdQ==" target="_blank" class="block w-full border border-black py-2 text-xs uppercase hover:bg-black hover:text-white transition">View Highlights</a>
                 </div>
-                <div class="order-1 md:order-2 pl-0 md:pl-10">
-                    <h2 class="text-3xl md:text-4xl mb-6 serif-font">The Journey</h2>
-                    <div class="w-10 h-px bg-black mb-6"></div>
-                    <p class="text-base md:text-lg leading-relaxed text-gray-700 mb-6 font-light">It started with a simple passion in 2014...</p>
-                    <p class="text-base md:text-lg leading-relaxed text-gray-700 font-light">Today, we are proud to be a team of 10 professional manicurists...</p>
+                <!-- 2. Full Course -->
+                <div class="bg-white p-6 shadow-sm hover:shadow-md transition text-center group">
+                    <div class="aspect-square overflow-hidden mb-4 bg-gray-100"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/qk1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <h3 class="text-xl serif-font font-bold mb-2">Full Course</h3>
+                    <p class="text-xs text-gray-500 mb-4 uppercase tracking-wide">Ivy / Ke Xin / Boo</p>
+                    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTYxMDM3MjQ0NzA5MTgw?story_media_id=3316392326037451379&igsh=aGIzaDg3bm92eTBl" target="_blank" class="block w-full border border-black py-2 text-xs uppercase hover:bg-black hover:text-white transition">View Highlights</a>
+                </div>
+                <!-- 3. Correction Class -->
+                <div class="bg-white p-6 shadow-sm hover:shadow-md transition text-center group">
+                    <div class="aspect-square overflow-hidden mb-4 bg-gray-100"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/jz1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <h3 class="text-xl serif-font font-bold mb-2">Correction Class</h3>
+                    <p class="text-xs text-gray-500 mb-4 uppercase tracking-wide">Shean Yuan / Boo</p>
+                    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE4MTAwOTUxMzk2NTU0Njc4?story_media_id=3581259703613504690&igsh=eXNnbmUyMTBudDN4" target="_blank" class="block w-full border border-black py-2 text-xs uppercase hover:bg-black hover:text-white transition">View Highlights</a>
+                </div>
+                <!-- 4. 1-on-1 Class -->
+                <div class="bg-white p-6 shadow-sm hover:shadow-md transition text-center group">
+                    <div class="aspect-square overflow-hidden mb-4 bg-gray-100"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/dz1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <h3 class="text-xl serif-font font-bold mb-2">1-on-1 Custom</h3>
+                    <p class="text-xs text-gray-500 mb-4 uppercase tracking-wide">Shean Yuan / Ke Xin / Pei Ying / Boo</p>
+                    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE4Mzk5ODQzMTMzMTQzMTA0?story_media_id=3438517743778417452&igsh=MW85N2w2bTVhNW02eg==" target="_blank" class="block w-full border border-black py-2 text-xs uppercase hover:bg-black hover:text-white transition">View Highlights</a>
                 </div>
             </div>
+
+            <!-- WeChat CTA -->
+            <div class="text-center bg-white p-8 max-w-2xl mx-auto shadow-lg rounded-lg border border-green-100">
+                <i class="fab fa-weixin text-5xl text-green-500 mb-4 block"></i>
+                <p class="text-gray-600 mb-6 italic">For course enquiry, kindly contact via WeChat for more details.</p>
+                <a href="weixin://dl/chat?username=Nailsbylittleboo" class="inline-block bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition shadow-md font-bold tracking-wide">
+                    Connect on WeChat
+                </a>
+                <p class="text-xs text-gray-400 mt-2">ID: Nailsbylittleboo</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. OUR STORY (NEW SLIDER) -->
+    <section id="story" class="relative w-full h-[80vh] bg-gray-900" 
+             x-data="{ 
+                currentStory: 0, 
+                stories: [
+                    { img: 'story1.png', title: '2013-2015: The Spark & The Refinement', text: 'Our story begins in 2013 with Boo Sze Teng\'s initial spark of passion for nail art... The crucial shift came two years later when she embraced Japanese Nail Art principles.' },
+                    { img: 'story1.png', title: '2016-2018: Education & Experience', text: 'Balancing her passion, Boo successfully completed her bachelor’s degree in Inti University while working part-time... Followed by invaluable industry experience in Singapore.' },
+                    { img: 'story2.png', title: '2019: Anchored in Sunway Geo', text: 'The vision was finally realized in 2019 when Nailsbylittleboo opened its first boutique studio in Sunway Geo Avenue. Success is a shared journey.' },
+                    { img: 'story3.png', title: 'Today: A Team of Ten', text: 'Today, Nailsbylittleboo is proudly sailed by a devoted crew of 10 professional manicurists. We are a dedicated collective committed to Progress, Innovation, and Gratitude.' }
+                ],
+                nextStory() { this.currentStory = (this.currentStory + 1) % this.stories.length },
+                prevStory() { this.currentStory = (this.currentStory - 1 + this.stories.length) % this.stories.length }
+             }">
+        
+        <template x-for="(story, index) in stories" :key="index">
+            <div class="absolute inset-0 transition-opacity duration-1000" x-show="currentStory === index"
+                 x-transition:enter="transition ease-out duration-1000" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-1000" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+                <img :src="'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/' + story.img" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                    <div class="text-center text-white px-6 max-w-4xl">
+                        <h2 class="text-3xl md:text-5xl serif-font mb-6" x-text="story.title"></h2>
+                        <div class="w-16 h-px bg-white mx-auto mb-8"></div>
+                        <p class="text-base md:text-xl font-light leading-relaxed" x-text="story.text"></p>
+                    </div>
+                </div>
+            </div>
+        </template>
+        
+        <!-- Arrows -->
+        <button @click="prevStory()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition z-20"><i class="fas fa-chevron-left"></i></button>
+        <button @click="nextStory()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition z-20"><i class="fas fa-chevron-right"></i></button>
+        
+        <!-- Dots -->
+        <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-20">
+            <template x-for="(story, index) in stories">
+                <button @click="currentStory = index" class="w-3 h-3 rounded-full border border-white/80 transition" :class="currentStory === index ? 'bg-white' : 'hover:bg-white/30'"></button>
+            </template>
         </div>
     </section>
 
