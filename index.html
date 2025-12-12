@@ -14,9 +14,13 @@
         body { background-color: var(--bg-cream); color: var(--text-black); font-family: 'Lato', sans-serif; }
         h1, h2, h3, h4, .nav-link, .serif-font { font-family: 'Playfair Display', serif; }
         
-        .nav-link { position: relative; text-decoration: none; color: #333; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0; background-color: #000; transition: width 0.3s; }
+        .nav-link { position: relative; text-decoration: none; color: #FFF; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0; background-color: #FFF; transition: width 0.3s; }
         .nav-link:hover::after { width: 100%; }
+
+        /* 滚动后导航栏变色，保证可读性 */
+        header.scrolled .nav-link { color: #333; text-shadow: none; }
+        header.scrolled .nav-link::after { background-color: #333; }
 
         .zoom-img { transition: transform 0.5s ease; }
         .zoom-img-container:hover .zoom-img { transform: scale(1.03); }
@@ -26,7 +30,7 @@
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 2px 2px 3px #999; z-index: 100; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
         .whatsapp-float:hover { background-color: #1ebc57; transform: scale(1.1); }
         
-        .fade-enter-active, .fade-leave-active { transition: opacity 1s ease-in-out; }
+        .fade-enter-active, .fade-leave-active { transition: opacity 1.5s ease-in-out; }
         .fade-enter-from, .fade-leave-to { opacity: 0; }
     </style>
 </head>
@@ -45,7 +49,7 @@
     prevImage() { this.currentIndex = (this.currentIndex - 1 + this.menuImages.length) % this.menuImages.length; this.activeImage = this.menuImages[this.currentIndex]; }
 }">
 
-    <!-- Menu Lightbox -->
+    <!-- Lightbox -->
     <div x-show="lightboxOpen" x-transition.opacity class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center" x-cloak>
         <button @click="closeLightbox()" class="absolute top-6 right-6 text-white text-4xl hover:text-gray-300 z-50"><i class="fas fa-times"></i></button>
         <button @click.stop="prevImage()" class="absolute left-2 md:left-8 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-left"></i></button>
@@ -53,76 +57,84 @@
         <button @click.stop="nextImage()" class="absolute right-2 md:right-8 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-right"></i></button>
     </div>
 
-    <!-- HEADER -->
-    <header class="absolute top-0 z-50 w-full pt-4 pb-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center bg-transparent">
-        <!-- Logo (为了在全屏图片上看得清，可能需要微调，或者保持顶部有背景) -->
-        <!-- 这里我做了一个稍微带一点背景的处理，确保菜单看得见 -->
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent pointer-events-none"></div>
+    <!-- HEADER (Fixed Top) -->
+    <!-- 增加 z-50 确保在最上层 -->
+    <header class="fixed top-0 left-0 right-0 z-50 w-full pt-6 pb-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center transition duration-300"
+            :class="{ 'bg-[#F7F2ED]/95 shadow-sm scrolled': $window.scrollY > 50, 'bg-transparent': $window.scrollY <= 50 }"
+            @scroll.window="scrolled = (window.pageYOffset > 50)">
         
-        <div class="relative z-10 mb-4 md:mb-0">
-             <a href="#"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" alt="Logo" class="h-12 md:h-16 w-auto filter brightness-0 invert"></a>
-             <!-- 注意：因为是全屏图片，我把 Logo 变成了白色 (invert)。如果你想要原色，把 filter brightness-0 invert 删掉 -->
+        <!-- Logo: 移除滤镜，保持原色，提高层级 -->
+        <div class="relative z-50 mb-4 md:mb-0">
+             <a href="#">
+                <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" 
+                     alt="Logo" 
+                     class="h-16 md:h-20 w-auto"> <!-- 稍微调大了Logo确保清晰 -->
+             </a>
         </div>
-        <nav class="relative z-10 flex gap-4 md:gap-8 text-xs md:text-sm flex-wrap justify-center text-white font-medium tracking-widest">
-            <a href="#gallery" class="hover:text-yellow-200 transition">Art Gallery</a>
-            <a href="#services" class="hover:text-yellow-200 transition">Our Services</a>
-            <a href="#artists" class="hover:text-yellow-200 transition">Our Artists</a>
-            <a href="#course" class="hover:text-yellow-200 transition">Nail Course</a>
-            <a href="#story" class="hover:text-yellow-200 transition">Our Story</a>
-            <a href="#contact" class="hover:text-yellow-200 transition">Contact Us</a>
+        
+        <!-- Navigation -->
+        <nav class="relative z-50 flex gap-4 md:gap-8 text-xs md:text-sm flex-wrap justify-center font-medium tracking-widest">
+            <a href="#gallery" class="nav-link">Art Gallery</a>
+            <a href="#services" class="nav-link">Our Services</a>
+            <a href="#artists" class="nav-link">Our Artists</a>
+            <a href="#course" class="nav-link">Nail Course</a>
+            <a href="#story" class="nav-link">Our Story</a>
+            <a href="#contact" class="nav-link">Contact Us</a>
         </nav>
     </header>
 
-    <!-- FULL SCREEN HERO SLIDER (100vh) -->
+    <!-- FULL SCREEN HERO SLIDER (8秒轮播) -->
     <section class="relative w-full h-screen overflow-hidden bg-gray-900" 
              x-data="{ currentSlide: 0, slides: ['hp1.png', 'hp2.png', 'hp3.png', 'hp4.png', 'hp5.png'] }" 
-             x-init="setInterval(() => { currentSlide = (currentSlide + 1) % slides.length }, 3000)">
+             x-init="setInterval(() => { currentSlide = (currentSlide + 1) % slides.length }, 8000)"> <!-- 这里的 8000 代表 8秒 -->
+        
         <template x-for="(slide, index) in slides" :key="index">
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+            <div class="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out"
                  x-show="currentSlide === index"
-                 x-transition:enter="transition ease-out duration-1000"
+                 x-transition:enter="transition ease-out duration-[1500ms]"
                  x-transition:enter-start="opacity-0"
                  x-transition:enter-end="opacity-100"
-                 x-transition:leave="transition ease-in duration-1000"
+                 x-transition:leave="transition ease-in duration-[1500ms]"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0">
                 <img :src="'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/' + slide" class="w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-black/30"></div>
+                <!-- 遮罩层稍微加深一点点，保证原色logo能看清，同时白字清晰 -->
+                <div class="absolute inset-0 bg-black/20"></div>
             </div>
         </template>
-        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 px-4 text-center">
-            <h1 class="text-white text-4xl md:text-7xl font-light serif-font tracking-wider drop-shadow-xl mb-6 opacity-95">
-                Premium Japanese<br>Nail Art Salon
+        
+        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 px-4 text-center mt-16">
+            <!-- 文字调整：全大写，字号小(text-xl md:text-2xl)，一行显示 -->
+            <h1 class="text-white text-xl md:text-2xl font-normal serif-font tracking-[0.2em] uppercase drop-shadow-md opacity-90 whitespace-nowrap">
+                Premium Japanese Nail Art Salon
             </h1>
             
-            <!-- BOOK BUTTON (柔和配色) -->
-            <!-- 使用了 bg-[#F7F2ED] (米杏色) 和 text-black -->
+            <!-- BUTTON (米杏色) -->
             <a href="https://wa.me/60183887390" target="_blank" 
-               class="px-10 py-4 bg-[#F7F2ED] text-gray-800 font-semibold tracking-[0.2em] uppercase hover:bg-[#e6ded5] transition duration-500 min-w-[240px] text-center shadow-2xl rounded-sm text-sm">
+               class="px-10 py-3 bg-[#F7F2ED] text-gray-800 font-semibold tracking-[0.15em] uppercase hover:bg-[#e6ded5] transition duration-500 min-w-[240px] text-center shadow-lg rounded-sm text-xs md:text-sm mt-4">
                Book An Appointment
             </a>
         </div>
     </section>
 
-    <!-- 1. ART GALLERY (LightWidget) -->
+    <!-- 1. ART GALLERY (Elfsight) -->
     <section id="gallery" class="py-20 bg-[#F7F2ED]">
         <div class="container mx-auto px-0 md:px-6 text-center">
             <h2 class="text-3xl md:text-4xl mb-4 serif-font">Art Gallery</h2>
             <p class="text-gray-500 mb-10 tracking-widest uppercase text-xs">Follow us on Instagram @nailsbylittleboo</p>
             
-            <!-- Widget 容器 -->
-            <div class="w-full overflow-hidden">
-                <!-- LightWidget WIDGET -->
-                <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
-                <iframe src="//lightwidget.com/widgets/144f681d1a595920b452548f65c463c0.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
+            <!-- Elfsight WIDGET -->
+            <div class="w-full max-w-7xl mx-auto overflow-hidden">
+                <script src="https://elfsightcdn.com/platform.js" async></script>
+                <div class="elfsight-app-ecf4cf75-bd8e-436d-be60-0f299a9d4861" data-elfsight-app-lazy></div>
             </div>
 
             <div class="mt-12 flex justify-center gap-6">
-                 <!-- Follow 按钮 -->
+                 <!-- Follow Button -->
                  <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="px-6 py-2 border border-black text-black text-xs uppercase tracking-widest hover:bg-black hover:text-white transition">
                     Follow
                 </a>
-                <!-- Show More (Link to IG) -->
+                <!-- Show More Button -->
                 <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="px-6 py-2 bg-black text-white text-xs uppercase tracking-widest hover:bg-gray-800 transition">
                     Show More
                 </a>
@@ -149,12 +161,13 @@
             <h2 class="text-3xl md:text-4xl mb-16 serif-font text-center">Our Artists</h2>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-6 text-center">
                 
-                <!-- 1. Boo -->
+                <!-- 1. Boo (新增链接) -->
                 <div class="group flex flex-col items-center">
                     <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
                         <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/boo.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
                     </div>
-                    <h3 class="text-lg serif-font">Boo</h3>
+                    <h3 class="text-lg serif-font mb-2">Boo</h3>
+                    <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
                 </div>
 
                 <!-- 2. Shean Yuan -->
