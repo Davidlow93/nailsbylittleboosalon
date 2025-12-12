@@ -14,13 +14,10 @@
         body { background-color: var(--bg-cream); color: var(--text-black); font-family: 'Lato', sans-serif; }
         h1, h2, h3, h4, .nav-link, .serif-font { font-family: 'Playfair Display', serif; }
         
-        .nav-link { position: relative; text-decoration: none; color: #FFF; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0; background-color: #FFF; transition: width 0.3s; }
+        /* 导航栏文字颜色：现在背景是米色，文字用深灰色 */
+        .nav-link { position: relative; text-decoration: none; color: #444; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0; background-color: #000; transition: width 0.3s; }
         .nav-link:hover::after { width: 100%; }
-
-        /* 滚动后导航栏变色，保证可读性 */
-        header.scrolled .nav-link { color: #333; text-shadow: none; }
-        header.scrolled .nav-link::after { background-color: #333; }
 
         .zoom-img { transition: transform 0.5s ease; }
         .zoom-img-container:hover .zoom-img { transform: scale(1.03); }
@@ -57,36 +54,37 @@
         <button @click.stop="nextImage()" class="absolute right-2 md:right-8 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-right"></i></button>
     </div>
 
-    <!-- HEADER (Fixed Top) -->
-    <!-- 增加 z-50 确保在最上层 -->
-    <header class="fixed top-0 left-0 right-0 z-50 w-full pt-6 pb-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center transition duration-300"
-            :class="{ 'bg-[#F7F2ED]/95 shadow-sm scrolled': $window.scrollY > 50, 'bg-transparent': $window.scrollY <= 50 }"
-            @scroll.window="scrolled = (window.pageYOffset > 50)">
-        
-        <!-- Logo: 移除滤镜，保持原色，提高层级 -->
-        <div class="relative z-50 mb-4 md:mb-0">
-             <a href="#">
-                <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" 
-                     alt="Logo" 
-                     class="h-16 md:h-20 w-auto"> <!-- 稍微调大了Logo确保清晰 -->
-             </a>
-        </div>
-        
-        <!-- Navigation -->
-        <nav class="relative z-50 flex gap-4 md:gap-8 text-xs md:text-sm flex-wrap justify-center font-medium tracking-widest">
-            <a href="#gallery" class="nav-link">Art Gallery</a>
-            <a href="#services" class="nav-link">Our Services</a>
-            <a href="#artists" class="nav-link">Our Artists</a>
-            <a href="#course" class="nav-link">Nail Course</a>
-            <a href="#story" class="nav-link">Our Story</a>
-            <a href="#contact" class="nav-link">Contact Us</a>
-        </nav>
-    </header>
+    <!-- HEADER (Fixed Top + Divider) -->
+    <!-- 这里的 pt-20 是为了防止内容被 fixed header 遮挡 -->
+    <div class="pt-[88px] md:pt-[100px]"> <!-- 这个 padding 等于 header 的高度 -->
+        <header class="fixed top-0 left-0 right-0 z-50 w-full bg-[#F7F2ED] border-b border-gray-300 shadow-sm flex flex-col md:flex-row justify-between items-center px-6 md:px-12 py-3 md:py-4">
+            
+            <!-- Logo: 原色显示 -->
+            <div class="mb-3 md:mb-0">
+                 <a href="#">
+                    <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" 
+                         alt="Logo" 
+                         class="h-14 md:h-16 w-auto">
+                 </a>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="flex gap-4 md:gap-8 text-xs md:text-sm flex-wrap justify-center font-medium tracking-widest text-gray-700">
+                <a href="#gallery" class="nav-link">Art Gallery</a>
+                <a href="#services" class="nav-link">Our Services</a>
+                <a href="#artists" class="nav-link">Our Artists</a>
+                <a href="#course" class="nav-link">Nail Course</a>
+                <a href="#story" class="nav-link">Our Story</a>
+                <a href="#contact" class="nav-link">Contact Us</a>
+            </nav>
+        </header>
+    </div>
 
-    <!-- FULL SCREEN HERO SLIDER (8秒轮播) -->
-    <section class="relative w-full h-screen overflow-hidden bg-gray-900" 
+    <!-- FULL SCREEN HERO SLIDER (高度改为 calc(100vh - header高度) ) -->
+    <!-- 这样既填满屏幕，又不会被header挡住 -->
+    <section class="relative w-full h-[calc(100vh-100px)] overflow-hidden bg-gray-900" 
              x-data="{ currentSlide: 0, slides: ['hp1.png', 'hp2.png', 'hp3.png', 'hp4.png', 'hp5.png'] }" 
-             x-init="setInterval(() => { currentSlide = (currentSlide + 1) % slides.length }, 8000)"> <!-- 这里的 8000 代表 8秒 -->
+             x-init="setInterval(() => { currentSlide = (currentSlide + 1) % slides.length }, 8000)">
         
         <template x-for="(slide, index) in slides" :key="index">
             <div class="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out"
@@ -98,18 +96,15 @@
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0">
                 <img :src="'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/' + slide" class="w-full h-full object-cover object-center">
-                <!-- 遮罩层稍微加深一点点，保证原色logo能看清，同时白字清晰 -->
                 <div class="absolute inset-0 bg-black/20"></div>
             </div>
         </template>
         
-        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 px-4 text-center mt-16">
-            <!-- 文字调整：全大写，字号小(text-xl md:text-2xl)，一行显示 -->
+        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 px-4 text-center">
             <h1 class="text-white text-xl md:text-2xl font-normal serif-font tracking-[0.2em] uppercase drop-shadow-md opacity-90 whitespace-nowrap">
                 Premium Japanese Nail Art Salon
             </h1>
             
-            <!-- BUTTON (米杏色) -->
             <a href="https://wa.me/60183887390" target="_blank" 
                class="px-10 py-3 bg-[#F7F2ED] text-gray-800 font-semibold tracking-[0.15em] uppercase hover:bg-[#e6ded5] transition duration-500 min-w-[240px] text-center shadow-lg rounded-sm text-xs md:text-sm mt-4">
                Book An Appointment
@@ -123,21 +118,14 @@
             <h2 class="text-3xl md:text-4xl mb-4 serif-font">Art Gallery</h2>
             <p class="text-gray-500 mb-10 tracking-widest uppercase text-xs">Follow us on Instagram @nailsbylittleboo</p>
             
-            <!-- Elfsight WIDGET -->
             <div class="w-full max-w-7xl mx-auto overflow-hidden">
                 <script src="https://elfsightcdn.com/platform.js" async></script>
                 <div class="elfsight-app-ecf4cf75-bd8e-436d-be60-0f299a9d4861" data-elfsight-app-lazy></div>
             </div>
 
             <div class="mt-12 flex justify-center gap-6">
-                 <!-- Follow Button -->
-                 <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="px-6 py-2 border border-black text-black text-xs uppercase tracking-widest hover:bg-black hover:text-white transition">
-                    Follow
-                </a>
-                <!-- Show More Button -->
-                <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="px-6 py-2 bg-black text-white text-xs uppercase tracking-widest hover:bg-gray-800 transition">
-                    Show More
-                </a>
+                 <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="px-6 py-2 border border-black text-black text-xs uppercase tracking-widest hover:bg-black hover:text-white transition">Follow</a>
+                <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="px-6 py-2 bg-black text-white text-xs uppercase tracking-widest hover:bg-gray-800 transition">Show More</a>
             </div>
         </div>
     </section>
@@ -161,92 +149,71 @@
             <h2 class="text-3xl md:text-4xl mb-16 serif-font text-center">Our Artists</h2>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-6 text-center">
                 
-                <!-- 1. Boo (新增链接) -->
+                <!-- 1. Boo (Link) -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/boo.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/boo.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font mb-2">Boo</h3>
                     <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
                 </div>
 
                 <!-- 2. Shean Yuan -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/sy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/sy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font mb-2">Shean Yuan</h3>
                     <a href="https://www.instagram.com/salon_de_mie?igsh=dm45eXd3bTBxa2Yx" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
                 </div>
 
                 <!-- 3. Pei Ying -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/py.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/py.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font mb-2">Pei Ying</h3>
                     <a href="https://www.instagram.com/popeye.nailsart?igsh=OW9xNnRmYjA2bDJj" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
                 </div>
 
                 <!-- 4. Ke Xin -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/kx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/kx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font mb-2">Ke Xin</h3>
                     <a href="https://www.instagram.com/_xinnails?igsh=YWhneTFqM3R3emds" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
                 </div>
 
                 <!-- 5. Ivy -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/ivy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/ivy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font mb-2">Ivy</h3>
                     <a href="https://www.instagram.com/ivnails_nailsbylittleboo?igsh=a21hZXF5ZzhxMXNk" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
                 </div>
 
                 <!-- 6. Gisselle -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/gs.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/gs.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font mb-2">Gisselle</h3>
                     <a href="https://www.instagram.com/yimagine.nails?igsh=MTQxaWhkMGZhZm55bQ==" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a>
                 </div>
 
                 <!-- 7. Jayee -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/jy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/jy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font">Jayee</h3>
                 </div>
 
                 <!-- 8. Wen Jing -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/wj.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/wj.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font">Wen Jing</h3>
                 </div>
 
                 <!-- 9. Yi Xuan -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/yx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/yx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font">Yi Xuan</h3>
                 </div>
 
                 <!-- 10. Ting Ting -->
                 <div class="group flex flex-col items-center">
-                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
-                        <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/tt.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-                    </div>
+                    <div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/tt.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div>
                     <h3 class="text-lg serif-font">Ting Ting</h3>
                 </div>
-
             </div>
         </div>
     </section>
@@ -280,41 +247,23 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div>
                     <h2 class="text-3xl text-black serif-font mb-8">Contact Us</h2>
-                    
                     <div class="mb-8 text-gray-700">
                         <strong class="text-black block mb-2 serif-font tracking-wide text-lg">NAILSBYLITTLEBOO SALON</strong>
                         <p class="leading-relaxed mb-4">B-05-21 Sunway Geo Avenue,<br>Jalan Lagoon Selatan Bandar Sunway,<br>47500 Subang Jaya, Selangor, Malaysia.</p>
-                        
-                        <!-- 导航按钮 -->
                         <div class="flex flex-col sm:flex-row gap-4">
-                            <!-- Google Map -->
-                            <a href="https://www.google.com/maps?rlz=1C1VDKB_enMY1123MY1123&gs_lcrp=EgZjaHJvbWUqDwgAECMYJxjjAhiABBiKBTIPCAAQIxgnGOMCGIAEGIoFMhIIARAuGCcYrwEYxwEYgAQYigUyBggCEEUYOzIXCAMQRRg5GEMYgwEYsQMYyQMYgAQYigUyBggEEEUYPDIGCAUQRRg8MgYIBhBFGDwyBggHEEUYPNIBCDI3MDJqMGo3qAIAsAIA&um=1&ie=UTF-8&fb=1&gl=my&sa=X&geocode=KZ9GAcc0TcwxMecl73bGfLxa&daddr=B-05-17,+19+and+21,+Sunway+GEO+Avenue,+Jalan+Lagoon+Selatan,+Bandar+Sunway,+47500+Subang+Jaya,+Selangor" 
-                               target="_blank" 
-                               class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded hover:bg-black hover:text-white hover:border-black transition duration-300 text-sm font-medium">
-                                <i class="fas fa-map-marked-alt mr-2 text-red-500"></i> Google Map
-                            </a>
-                            <!-- Waze -->
-                            <a href="https://waze.com/ul/hw2832jyph" 
-                               target="_blank" 
-                               class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded hover:bg-black hover:text-white hover:border-black transition duration-300 text-sm font-medium">
-                                <i class="fab fa-waze mr-2 text-blue-400"></i> Waze
-                            </a>
+                            <a href="https://www.google.com/maps?rlz=1C1VDKB_enMY1123MY1123&gs_lcrp=EgZjaHJvbWUqDwgAECMYJxjjAhiABBiKBTIPCAAQIxgnGOMCGIAEGIoFMhIIARAuGCcYrwEYxwEYgAQYigUyBggCEEUYOzIXCAMQRRg5GEMYgwEYsQMYyQMYgAQYigUyBggEEEUYPDIGCAUQRRg8MgYIBhBFGDwyBggHEEUYPNIBCDI3MDJqMGo3qAIAsAIA&um=1&ie=UTF-8&fb=1&gl=my&sa=X&geocode=KZ9GAcc0TcwxMecl73bGfLxa&daddr=B-05-17,+19+and+21,+Sunway+GEO+Avenue,+Jalan+Lagoon+Selatan,+Bandar+Sunway,+47500+Subang+Jaya,+Selangor" target="_blank" class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded hover:bg-black hover:text-white hover:border-black transition duration-300 text-sm font-medium"><i class="fas fa-map-marked-alt mr-2 text-red-500"></i> Google Map</a>
+                            <a href="https://waze.com/ul/hw2832jyph" target="_blank" class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded hover:bg-black hover:text-white hover:border-black transition duration-300 text-sm font-medium"><i class="fab fa-waze mr-2 text-blue-400"></i> Waze</a>
                         </div>
                     </div>
-
                     <a href="https://wa.me/60183887390" class="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition duration-300 mb-8 text-sm uppercase">WhatsApp Us</a>
                 </div>
-                
                 <div class="md:text-right">
                     <h3 class="text-xl text-black serif-font mb-6">Operating Hours</h3>
                     <div class="space-y-2 font-light text-gray-700">
                         <div class="flex justify-between md:justify-end gap-8"><span>Monday - Friday</span><span class="font-medium">11am - 6:30pm</span></div>
                         <div class="flex justify-between md:justify-end gap-8"><span>Saturday - Sunday</span><span class="font-medium">9am - 4:30pm</span></div>
                     </div>
-                    <div class="mt-12 text-xs text-gray-500 flex flex-col gap-1">
-                        <p>Nailsbylittleboo Salon is operated by Daun Segar Sdn Bhd (1444290-V).</p>
-                        <p>&copy; 2025 Nailsbylittleboo Salon. All rights reserved.</p>
-                    </div>
+                    <div class="mt-12 text-xs text-gray-500 flex flex-col gap-1"><p>Nailsbylittleboo Salon is operated by Daun Segar Sdn Bhd (1444290-V).</p><p>&copy; 2025 Nailsbylittleboo Salon. All rights reserved.</p></div>
                 </div>
             </div>
         </div>
