@@ -278,7 +278,7 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* Nail Course - Redesigned Mobile Friendly */}
+      {/* Nail Course */}
       <section id="course" className="py-20 md:py-32 bg-[#F7F2ED] border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-20">
@@ -296,17 +296,15 @@ const App: React.FC = () => {
                     alt={course.title}
                   />
                   
-                  {/* Floating WeChat Overlay Label */}
                   <div className="absolute top-3 right-3 z-10">
                     <a 
-                        href="weixin://dl/chat?username=Nailsbylittleboo"
+                        href={`weixin://dl/chat?username=${WECHAT_ID}`}
                         className="bg-green-500 text-white p-2.5 rounded-full shadow-xl flex items-center justify-center hover:bg-green-600 transition-transform hover:scale-110 active:scale-90 border-2 border-white/30"
                     >
                         <MessageCircle size={18} fill="currentColor" />
                     </a>
                   </div>
 
-                  {/* Hover Details */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center">
                     <p className="text-white text-[11px] mb-8 leading-relaxed font-light italic">Learn professional Japanese techniques from industry experts. Connect with us for enrolment info.</p>
                     <a 
@@ -327,7 +325,6 @@ const App: React.FC = () => {
             ))}
           </div>
 
-          {/* WeChat CTA Card */}
           <div className="mt-24 max-w-4xl mx-auto px-4">
             <div className="relative bg-white p-10 md:p-20 rounded-2xl shadow-2xl border border-white text-center overflow-hidden">
               <div className="absolute top-0 right-0 p-8 text-green-500/5 transform translate-x-1/4 -translate-y-1/4">
@@ -341,7 +338,7 @@ const App: React.FC = () => {
                 </p>
                 <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                   <a 
-                    href="weixin://dl/chat?username=Nailsbylittleboo" 
+                    href={`weixin://dl/chat?username=${WECHAT_ID}`} 
                     className="w-full md:w-auto inline-flex items-center justify-center gap-3 bg-green-500 text-white px-12 py-5 rounded-full hover:bg-green-600 transition shadow-xl font-bold tracking-[0.2em] text-[11px] uppercase active:scale-95"
                   >
                     <MessageCircle size={20} /> WeChat Enquiry
@@ -450,8 +447,8 @@ const App: React.FC = () => {
   );
 };
 
-// Render the application
 const rootElement = document.getElementById('root');
 if (rootElement) {
   createRoot(rootElement).render(<App />);
 }
+
