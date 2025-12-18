@@ -1,302 +1,451 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nailsbylittleboo Salon</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <style>
-        :root { --bg-cream: #F7F2ED; --text-black: #222222; }
-        body { background-color: var(--bg-cream); color: var(--text-black); font-family: 'Lato', sans-serif; }
-        h1, h2, h3, h4, .nav-link, .serif-font { font-family: 'Playfair Display', serif; }
-        
-        .nav-link { position: relative; text-decoration: none; color: #444; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0; background-color: #000; transition: width 0.3s; }
-        .nav-link:hover::after { width: 100%; }
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Instagram, 
+  MessageCircle, 
+  MapPin, 
+  Clock, 
+  ChevronLeft, 
+  ChevronRight, 
+  X,
+  Navigation,
+  ExternalLink
+} from 'lucide-react';
 
-        .zoom-img { transition: transform 0.5s ease; }
-        .zoom-img-container:hover .zoom-img { transform: scale(1.03); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        [x-cloak] { display: none !important; }
-        
-        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 2px 2px 3px #999; z-index: 100; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
-        .whatsapp-float:hover { background-color: #1ebc57; transform: scale(1.1); }
-        
-        .fade-enter-active, .fade-leave-active { transition: opacity 1.5s ease-in-out; }
-        .fade-enter-from, .fade-leave-to { opacity: 0; }
-    </style>
-</head>
-<body class="antialiased pb-12" x-data="{ 
-    lightboxOpen: false, activeImage: '', 
-    menuImages: [
-        'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%201.png',
-        'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%202.png',
-        'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%203.png',
-        'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%204.png'
-    ],
-    currentIndex: 0,
-    openLightbox(index) { this.currentIndex = index; this.activeImage = this.menuImages[index]; this.lightboxOpen = true; },
-    openSingleImage(url) { this.activeImage = url; this.lightboxOpen = true; },
-    closeLightbox() { this.lightboxOpen = false; },
-    nextImage() { if(this.menuImages.includes(this.activeImage)) { this.currentIndex = (this.currentIndex + 1) % this.menuImages.length; this.activeImage = this.menuImages[this.currentIndex]; } },
-    prevImage() { if(this.menuImages.includes(this.activeImage)) { this.currentIndex = (this.currentIndex - 1 + this.menuImages.length) % this.menuImages.length; this.activeImage = this.menuImages[this.currentIndex]; } }
-}">
+// --- Constants & Assets ---
+const ASSET_BASE = "https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/";
+const LOGO_URL = `${ASSET_BASE}logo.png`;
+const WHATSAPP_NUMBER = "60183887390";
+const WECHAT_ID = "Nailsbylittleboo";
 
-    <!-- Lightbox -->
-    <div x-show="lightboxOpen" x-transition.opacity class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center" x-cloak>
-        <button @click="closeLightbox()" class="absolute top-6 right-6 text-white text-4xl hover:text-gray-300 z-50"><i class="fas fa-times"></i></button>
-        <button x-show="menuImages.includes(activeImage)" @click.stop="prevImage()" class="absolute left-2 md:left-8 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-left"></i></button>
-        <img :src="activeImage" class="max-h-[90vh] max-w-[95vw] object-contain shadow-2xl">
-        <button x-show="menuImages.includes(activeImage)" @click.stop="nextImage()" class="absolute right-2 md:right-8 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition"><i class="fas fa-chevron-right"></i></button>
-    </div>
+const HERO_SLIDES = ['hp1.png', 'hp2.png', 'hp3.png', 'hp4.png', 'hp5.png'];
+const MENU_IMAGES = ['menu%201.png', 'menu%202.png', 'menu%203.png', 'menu%204.png'];
 
-    <!-- HEADER (Height fixed to h-24 = 96px) -->
-    <header class="fixed top-0 left-0 right-0 z-50 w-full h-24 bg-[#F7F2ED] border-b border-gray-300 shadow-sm flex flex-col md:flex-row justify-between items-center px-6 md:px-12 box-border">
-        <div class="h-full flex items-center pt-2">
-             <a href="#">
-                <img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/logo.png" 
-                     alt="Logo" 
-                     class="h-16 w-auto object-contain">
-             </a>
+const ARTISTS = [
+  { name: 'Boo', img: 'boo.jpg', ig: 'nailsbylittleboo' },
+  { name: 'Shean Yuan', img: 'sy.jpg', ig: 'salon_de_mie' },
+  { name: 'Pei Ying', img: 'py.jpg', ig: 'popeye.nailsart' },
+  { name: 'Ke Xin', img: 'kx.jpg', ig: '_xinnails' },
+  { name: 'Ivy', img: 'ivy.jpg', ig: 'ivnails_nailsbylittleboo' },
+  { name: 'Gisselle', img: 'gs.jpg', ig: 'yimagine.nails' },
+  { name: 'Jayee', img: 'jy.jpg' },
+  { name: 'Wen Jing', img: 'wj.jpg' },
+  { name: 'Yi Xuan', img: 'yx.jpg' },
+  { name: 'Ting Ting', img: 'tt.jpg' },
+];
+
+const COURSES = [
+  { 
+    title: 'Design Class', 
+    instructors: 'Shean Yuan / Pei Ying / Ke Xin', 
+    img: 'sj1.jpg',
+    igLink: 'https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODgxNzkxNzE3MzkxMDQ2?story_media_id=3428290401449686665'
+  },
+  { 
+    title: 'Full Course', 
+    instructors: 'Ivy / Ke Xin / Boo', 
+    img: 'qk1.jpg',
+    igLink: 'https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTYxMDM3MjQ0NzA5MTgw?story_media_id=3316392326037451379'
+  },
+  { 
+    title: 'Correction Class', 
+    instructors: 'Shean Yuan / Boo', 
+    img: 'jz1.jpg',
+    igLink: 'https://www.instagram.com/s/aGlnaGxpZ2h0OjE4MTAwOTUxMzk2NTU0Njc4?story_media_id=3581259703613504690'
+  },
+  { 
+    title: '1-on-1 Custom', 
+    instructors: 'SY / KX / PY / Boo', 
+    img: 'dz1.jpg',
+    igLink: 'https://www.instagram.com/s/aGlnaGxpZ2h0OjE4Mzk5ODQzMTMzMTQzMTA0?story_media_id=3438517743778417452'
+  },
+];
+
+const App: React.FC = () => {
+  const [lightbox, setLightbox] = useState<{ isOpen: boolean, images: string[], index: number }>({
+    isOpen: false,
+    images: [],
+    index: 0
+  });
+  const [currentHero, setCurrentHero] = useState(0);
+
+  // Auto-slide Hero
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentHero(prev => (prev + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const openLightbox = (images: string[], index: number) => {
+    setLightbox({ isOpen: true, images, index });
+  };
+
+  const closeLightbox = () => setLightbox({ ...lightbox, isOpen: false });
+
+  const nextLightbox = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setLightbox(prev => ({ ...prev, index: (prev.index + 1) % prev.images.length }));
+  };
+
+  const prevLightbox = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setLightbox(prev => ({ ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length }));
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F7F2ED] font-['Lato'] text-[#222222] overflow-x-hidden selection:bg-[#d9cfc5]">
+      {/* Lightbox */}
+      {lightbox.isOpen && (
+        <div 
+          className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4"
+          onClick={closeLightbox}
+        >
+          <button className="absolute top-6 right-6 text-white hover:text-gray-300 z-50">
+            <X size={40} />
+          </button>
+          
+          {lightbox.images.length > 1 && (
+            <>
+              <button 
+                onClick={prevLightbox}
+                className="absolute left-4 md:left-8 text-white p-4 hover:bg-white/10 rounded-full transition"
+              >
+                <ChevronLeft size={48} />
+              </button>
+              <button 
+                onClick={nextLightbox}
+                className="absolute right-4 md:right-8 text-white p-4 hover:bg-white/10 rounded-full transition"
+              >
+                <ChevronRight size={48} />
+              </button>
+            </>
+          )}
+
+          <img 
+            src={lightbox.images[lightbox.index].startsWith('http') ? lightbox.images[lightbox.index] : `${ASSET_BASE}${lightbox.images[lightbox.index]}`} 
+            className="max-h-[90vh] max-w-full object-contain shadow-2xl animate-in fade-in zoom-in duration-300"
+            onClick={e => e.stopPropagation()}
+          />
         </div>
-        <nav class="flex gap-4 md:gap-8 text-xs md:text-sm flex-wrap justify-center font-medium tracking-widest text-gray-700 pb-2 md:pb-0">
-            <a href="#gallery" class="nav-link">Art Gallery</a>
-            <a href="#services" class="nav-link">Our Services</a>
-            <a href="#artists" class="nav-link">Our Artists</a>
-            <a href="#course" class="nav-link">Nail Course</a>
-            <a href="#story" class="nav-link">Our Story</a>
-            <a href="#contact" class="nav-link">Contact Us</a>
-        </nav>
-    </header>
+      )}
 
-    <!-- FULL SCREEN HERO SLIDER -->
-    <!-- margin-top: 6rem (h-24) to exactly match header height, removing gap -->
-    <!-- translate-y-32: 内容大幅下移 -->
-    <section class="relative w-full h-[calc(100vh-6rem)] mt-24 overflow-hidden bg-gray-900 group" 
-             x-data="{ 
-                currentSlide: 0, 
-                slides: ['hp1.png', 'hp2.png', 'hp3.png', 'hp4.png', 'hp5.png'],
-                timer: null,
-                startTimer() { this.timer = setInterval(() => { this.currentSlide = (this.currentSlide + 1) % this.slides.length }, 6000) },
-                stopTimer() { clearInterval(this.timer) },
-                setSlide(index) { this.stopTimer(); this.currentSlide = index; this.startTimer(); }
-             }" 
-             x-init="startTimer()">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 h-20 md:h-24 bg-[#F7F2ED]/95 backdrop-blur-md border-b border-gray-200 shadow-sm px-4 md:px-12 flex items-center justify-between">
+        <a href="#" className="h-full flex items-center py-2">
+          <img src={LOGO_URL} alt="Nailsbylittleboo" className="h-12 md:h-16 w-auto object-contain" />
+        </a>
         
-        <template x-for="(slide, index) in slides" :key="index">
-            <div class="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out cursor-pointer"
-                 x-show="currentSlide === index"
-                 x-transition:enter="transition ease-out duration-[1500ms]"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="transition ease-in duration-[1500ms]"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
-                 @click="openSingleImage('https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/' + slide)">
-                <img :src="'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/' + slide" class="w-full h-full object-cover object-center">
-                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition duration-500"></div>
-            </div>
-        </template>
-        
-        <!-- 内容位置调整: translate-y-32 -->
-        <div class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 px-4 text-center pointer-events-none translate-y-32">
-            <h1 class="text-white text-xl md:text-2xl font-normal serif-font tracking-[0.2em] uppercase drop-shadow-md opacity-90 whitespace-nowrap">
-                Premium Japanese Nail Art Salon
-            </h1>
-            
-            <a href="https://wa.me/60183887390" target="_blank" 
-               class="pointer-events-auto px-10 py-3 bg-[#F7F2ED] text-gray-800 font-semibold tracking-[0.15em] uppercase hover:bg-[#e6ded5] transition duration-500 min-w-[240px] text-center shadow-lg rounded-sm text-xs md:text-sm mt-4">
-               Book An Appointment
+        <nav className="hidden lg:flex gap-8 text-[11px] font-bold tracking-[0.2em] uppercase">
+          {['Gallery', 'Services', 'Artists', 'Course', 'Contact'].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-gray-500 transition-colors border-b border-transparent hover:border-black/20 pb-1">
+              {item}
             </a>
+          ))}
+        </nav>
+
+        {/* Mobile Mini Nav */}
+        <div className="lg:hidden flex gap-4 text-[9px] font-bold tracking-[0.1em] uppercase overflow-x-auto whitespace-nowrap">
+           <a href="#services" className="px-2">Services</a>
+           <a href="#course" className="px-2">Course</a>
+           <a href="#contact" className="px-2">Contact</a>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="relative w-full h-[70vh] md:h-[calc(100vh-6rem)] mt-20 md:mt-24 bg-gray-900 group">
+        {HERO_SLIDES.map((slide, idx) => (
+          <div 
+            key={slide}
+            className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${currentHero === idx ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <img 
+              src={`${ASSET_BASE}${slide}`} 
+              className="w-full h-full object-cover" 
+              alt="Hero Slide"
+            />
+            <div className="absolute inset-0 bg-black/10" />
+          </div>
+        ))}
+        
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center transform translate-y-16">
+          <h1 className="text-white text-lg md:text-3xl font-serif tracking-[0.25em] uppercase drop-shadow-xl opacity-90 mb-8 max-w-2xl leading-relaxed">
+            Premium Japanese <br className="md:hidden" /> Nail Art Salon
+          </h1>
+          <a 
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            className="px-8 md:px-12 py-3 md:py-4 bg-[#F7F2ED] text-gray-800 font-bold tracking-[0.2em] uppercase hover:bg-white transition-all shadow-2xl rounded-sm text-xs md:text-sm"
+          >
+            Book Appointment
+          </a>
         </div>
 
-        <div class="absolute bottom-8 left-0 right-0 z-20 flex justify-center gap-3">
-            <template x-for="(slide, index) in slides">
-                <button @click="setSlide(index)"
-                        class="w-3 h-3 rounded-full border border-white/80 transition-all duration-300"
-                        :class="currentSlide === index ? 'bg-white scale-110' : 'bg-transparent hover:bg-white/30'">
-                </button>
-            </template>
+        {/* Indicators */}
+        <div className="absolute bottom-10 left-0 right-0 z-20 flex justify-center gap-3">
+          {HERO_SLIDES.map((_, idx) => (
+            <button 
+              key={idx}
+              onClick={() => setCurrentHero(idx)}
+              className={`w-2 h-2 rounded-full transition-all ${currentHero === idx ? 'bg-white scale-150' : 'bg-white/30'}`}
+            />
+          ))}
         </div>
-    </section>
+      </section>
 
-    <!-- 1. ART GALLERY (Compact Version) -->
-    <!-- 减小 padding: py-8 -->
-    <section id="gallery" class="py-8 bg-[#F7F2ED]">
-        <div class="container mx-auto px-0 md:px-6 text-center">
-            <h2 class="text-3xl md:text-4xl mb-4 serif-font">Art Gallery</h2>
-            <p class="text-gray-500 mb-6 tracking-widest uppercase text-xs">Follow us on Instagram @nailsbylittleboo</p>
-            
-            <div class="w-full max-w-7xl mx-auto overflow-hidden">
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-ecf4cf75-bd8e-436d-be60-0f299a9d4861" data-elfsight-app-lazy></div>
+      {/* Gallery */}
+      <section id="gallery" className="py-16 md:py-24 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-serif mb-4 tracking-wide">Art Gallery</h2>
+          <p className="text-gray-400 text-[10px] md:text-xs tracking-[0.3em] uppercase mb-12">Artistry by our professionals</p>
+          
+          <div className="w-full bg-white/50 rounded-xl p-4 shadow-sm border border-white">
+            <script src="https://elfsightcdn.com/platform.js" async></script>
+            <div className="elfsight-app-ecf4cf75-bd8e-436d-be60-0f299a9d4861" data-elfsight-app-lazy></div>
+          </div>
+          
+          <div className="mt-12">
+            <a 
+              href="https://www.instagram.com/nailsbylittleboo/" 
+              target="_blank"
+              className="inline-flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-black pb-2 hover:text-gray-500 hover:border-gray-300 transition-all"
+            >
+              <Instagram size={14} /> View More on Instagram
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section id="services" className="py-16 md:py-24 bg-white/40">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-serif mb-4">Our Services</h2>
+            <div className="w-12 h-px bg-black/20 mx-auto" />
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {MENU_IMAGES.map((img, idx) => (
+              <div 
+                key={img}
+                onClick={() => openLightbox(MENU_IMAGES, idx)}
+                className="group relative cursor-zoom-in overflow-hidden aspect-[3/4] shadow-lg rounded-sm"
+              >
+                <img 
+                  src={`${ASSET_BASE}${img}`} 
+                  className="w-full h-full object-cover transition duration-1000 group-hover:scale-110" 
+                  alt={`Menu ${idx + 1}`}
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <span className="text-white text-[10px] uppercase tracking-widest bg-black/50 px-4 py-2">Enlarge</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 text-center text-gray-400 text-[10px] uppercase tracking-widest italic">Click to view full price list</p>
+        </div>
+      </section>
+
+      {/* Artists */}
+      <section id="artists" className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <h2 className="text-3xl md:text-5xl font-serif mb-16 text-center">Our Artists</h2>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-6 gap-y-12">
+            {ARTISTS.map((artist) => (
+              <div key={artist.name} className="group flex flex-col items-center">
+                <div className="relative w-full aspect-[3/4] overflow-hidden bg-gray-50 mb-4 rounded-sm">
+                  <img 
+                    src={`${ASSET_BASE}${artist.img}`} 
+                    className="w-full h-full object-cover transition duration-700 group-hover:scale-105" 
+                    alt={artist.name}
+                  />
+                  {artist.ig && (
+                    <a 
+                      href={`https://www.instagram.com/${artist.ig}`} 
+                      target="_blank"
+                      className="absolute bottom-0 left-0 right-0 bg-black/80 text-white text-[8px] md:text-[9px] py-2 text-center opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest flex items-center justify-center gap-1"
+                    >
+                      <Instagram size={10} /> {artist.name}'s Portfolio
+                    </a>
+                  )}
+                </div>
+                <h3 className="text-sm md:text-lg font-serif tracking-wide">{artist.name}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Nail Course - REDESIGNED */}
+      <section id="course" className="py-20 md:py-32 bg-[#F7F2ED]">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-serif mb-4">Educational Academy</h2>
+            <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-[0.3em]">Master the art of Japanese Nail Technique</p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {COURSES.map((course) => (
+              <div key={course.title} className="group relative bg-white overflow-hidden shadow-xl rounded-lg">
+                <div className="relative aspect-square overflow-hidden">
+                  <img 
+                    src={`${ASSET_BASE}${course.img}`} 
+                    className="w-full h-full object-cover transition duration-1000 group-hover:scale-110" 
+                    alt={course.title}
+                  />
+                  
+                  {/* Floating WeChat Label on Image */}
+                  <a 
+                    href="weixin://dl/chat?username=Nailsbylittleboo"
+                    className="absolute top-4 right-4 bg-green-500/90 text-white p-2 rounded-full shadow-lg backdrop-blur-sm flex items-center justify-center hover:bg-green-600 transition-all z-10"
+                    title="Enquire via WeChat"
+                  >
+                    <MessageCircle size={18} fill="currentColor" />
+                  </a>
+
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-6 text-center">
+                    <p className="text-white text-xs mb-4 leading-relaxed font-light italic">Interested in this course? Reach out to us now for intake details and pricing.</p>
+                    <div className="flex flex-col gap-2 w-full">
+                      <a href={course.igLink} target="_blank" className="bg-white text-black text-[10px] font-bold uppercase py-2 tracking-widest rounded-full hover:bg-gray-100 transition">View Story Highlights</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-serif font-bold mb-1">{course.title}</h3>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-4">{course.instructors}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Premium WeChat CTA Box */}
+          <div className="mt-20 max-w-3xl mx-auto relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-green-100 to-[#d9cfc5] rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+            <div className="relative bg-white p-10 md:p-16 rounded-2xl shadow-2xl border border-gray-100 text-center overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 text-green-50/50 transform translate-x-1/4 -translate-y-1/4">
+                <MessageCircle size={200} />
+              </div>
+              <div className="relative z-10">
+                <h4 className="text-2xl md:text-3xl font-serif mb-6 italic">Start Your Professional Journey</h4>
+                <p className="text-gray-500 mb-8 max-w-md mx-auto leading-relaxed text-sm md:text-base">
+                  We offer specialized modules for beginners and advanced artists.
+                  Follow our WeChat for the latest schedule.
+                </p>
+                <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+                  <a 
+                    href="weixin://dl/chat?username=Nailsbylittleboo" 
+                    className="w-full md:w-auto inline-flex items-center justify-center gap-3 bg-green-500 text-white px-10 py-4 rounded-full hover:bg-green-600 transition shadow-xl font-bold tracking-widest text-xs uppercase"
+                  >
+                    <MessageCircle size={20} /> WeChat Enquiry
+                  </a>
+                  <div className="text-gray-400 text-xs tracking-widest border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-8">
+                    ID: {WECHAT_ID}
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div class="mt-8 flex justify-center">
-                 <a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" 
-                    class="px-8 py-3 bg-black text-white text-xs uppercase tracking-[0.2em] hover:bg-gray-800 transition shadow-md">
-                    Show More & Follow
+      {/* Contact Section */}
+      <section id="contact" className="py-20 md:py-32 bg-white border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+            <div className="space-y-10">
+              <div>
+                <h2 className="text-3xl md:text-5xl font-serif mb-8 text-black">Find Us</h2>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <MapPin className="text-red-400 mt-1 flex-shrink-0" size={24} />
+                    <div className="text-gray-600 leading-relaxed">
+                      <strong className="text-black block mb-2 font-serif text-xl">NAILSBYLITTLEBOO SALON</strong>
+                      <p>B-05-21 Sunway Geo Avenue,<br />Jalan Lagoon Selatan Bandar Sunway,<br />47500 Subang Jaya, Selangor, Malaysia.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a 
+                      href="https://www.google.com/maps?q=Nailsbylittleboo+Salon" 
+                      target="_blank"
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-md hover:bg-black hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+                    >
+                      <Navigation size={16} /> Google Maps
+                    </a>
+                    <a 
+                      href="https://waze.com/ul/hw2832jyph" 
+                      target="_blank"
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 rounded-md hover:bg-black hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+                    >
+                      <ExternalLink size={16} /> Open Waze
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="pt-8">
+                <a 
+                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                  className="inline-block w-full text-center py-4 bg-black text-white text-xs font-bold uppercase tracking-[0.3em] hover:bg-gray-800 transition shadow-xl"
+                >
+                  Message On WhatsApp
                 </a>
+              </div>
             </div>
+
+            <div className="flex flex-col justify-center">
+              <div className="bg-[#F7F2ED] p-8 md:p-12 rounded-xl">
+                <h3 className="text-2xl font-serif mb-8 flex items-center gap-3">
+                  <Clock size={24} /> Operating Hours
+                </h3>
+                <div className="space-y-6 text-sm md:text-base">
+                  <div className="flex justify-between items-center border-b border-black/5 pb-4">
+                    <span className="text-gray-500 font-light">Monday — Friday</span>
+                    <span className="font-bold tracking-widest text-black">11:00 AM — 6:30 PM</span>
+                  </div>
+                  <div className="flex justify-between items-center border-b border-black/5 pb-4">
+                    <span className="text-gray-500 font-light">Saturday — Sunday</span>
+                    <span className="font-bold tracking-widest text-black">9:00 AM — 4:30 PM</span>
+                  </div>
+                </div>
+                
+                <div className="mt-12 text-[10px] text-gray-400 space-y-2 uppercase tracking-widest leading-loose">
+                  <p>Operated by Daun Segar Sdn Bhd (1444290-V)</p>
+                  <p>&copy; {new Date().getFullYear()} Nailsbylittleboo Salon. All Rights Reserved.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
-    <!-- 2. OUR SERVICES -->
-    <section id="services" class="py-20 border-t border-gray-200">
-        <div class="container mx-auto px-6 max-w-7xl text-center">
-            <h2 class="text-3xl md:text-4xl mb-12 serif-font tracking-wide">Our Services</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md" @click="openLightbox(0)"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%201.png" alt="Menu 1" class="w-full h-auto zoom-img"></div>
-                <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md" @click="openLightbox(1)"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%202.png" alt="Menu 2" class="w-full h-auto zoom-img"></div>
-                <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md" @click="openLightbox(2)"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%203.png" alt="Menu 3" class="w-full h-auto zoom-img"></div>
-                <div class="zoom-img-container overflow-hidden cursor-pointer shadow-md" @click="openLightbox(3)"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/menu%204.png" alt="Menu 4" class="w-full h-auto zoom-img"></div>
-            </div>
-            <p class="mt-8 text-gray-500 text-sm">Click menu to enlarge.</p>
-        </div>
-    </section>
+      </section>
 
-    <!-- 3. OUR ARTISTS -->
-    <section id="artists" class="py-20 bg-white">
-        <div class="container mx-auto px-6 max-w-7xl">
-            <h2 class="text-3xl md:text-4xl mb-16 serif-font text-center">Our Artists</h2>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-6 text-center">
-                <!-- Artists List (Code retained) -->
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/boo.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Boo</h3><a href="https://www.instagram.com/nailsbylittleboo/?hl=en" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/sy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Shean Yuan</h3><a href="https://www.instagram.com/salon_de_mie?igsh=dm45eXd3bTBxa2Yx" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/py.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Pei Ying</h3><a href="https://www.instagram.com/popeye.nailsart?igsh=OW9xNnRmYjA2bDJj" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/kx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Ke Xin</h3><a href="https://www.instagram.com/_xinnails?igsh=YWhneTFqM3R3emds" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/ivy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Ivy</h3><a href="https://www.instagram.com/ivnails_nailsbylittleboo?igsh=a21hZXF5ZzhxMXNk" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/gs.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font mb-2">Gisselle</h3><a href="https://www.instagram.com/yimagine.nails?igsh=MTQxaWhkMGZhZm55bQ==" target="_blank" class="text-[10px] border border-gray-300 px-3 py-1 uppercase tracking-widest hover:bg-black hover:text-white hover:border-black transition">Portfolio</a></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/jy.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font">Jayee</h3></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/wj.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font">Wen Jing</h3></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/yx.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font">Yi Xuan</h3></div>
-                <div class="group flex flex-col items-center"><div class="w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-4"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/tt.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105"></div><h3 class="text-lg serif-font">Ting Ting</h3></div>
-            </div>
-        </div>
-    </section>
+      {/* Floating WhatsApp FAB */}
+      <a 
+        href={`https://wa.me/${WHATSAPP_NUMBER}`}
+        target="_blank"
+        className="fixed bottom-6 right-6 z-[100] bg-[#25d366] text-white p-4 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center group"
+      >
+        <MessageCircle size={28} fill="currentColor" />
+        <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-in-out whitespace-nowrap text-[10px] font-bold uppercase tracking-widest ml-0 group-hover:ml-2">
+          Book Now
+        </span>
+      </a>
 
-    <!-- 4. NAIL COURSE (NEW LAYOUT) -->
-    <section id="course" class="py-20 bg-[#F7F2ED] border-t border-gray-200">
-        <div class="container mx-auto px-6 max-w-7xl">
-            <h2 class="text-3xl md:text-4xl mb-12 serif-font text-center">Nail Course</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                <!-- 1. Design Class -->
-                <div class="bg-white p-6 shadow-sm hover:shadow-md transition text-center group">
-                    <div class="aspect-square overflow-hidden mb-4 bg-gray-100"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/sj1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-                    <h3 class="text-xl serif-font font-bold mb-2">Design Class</h3>
-                    <p class="text-xs text-gray-500 mb-4 uppercase tracking-wide">Shean Yuan / Pei Ying / Ke Xin</p>
-                    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODgxNzkxNzE3MzkxMDQ2?story_media_id=3428290401449686665&igsh=MTNpNmo1MDc0aHRmdQ==" target="_blank" class="block w-full border border-black py-2 text-xs uppercase hover:bg-black hover:text-white transition">View Highlights</a>
-                </div>
-                <!-- 2. Full Course -->
-                <div class="bg-white p-6 shadow-sm hover:shadow-md transition text-center group">
-                    <div class="aspect-square overflow-hidden mb-4 bg-gray-100"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/qk1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-                    <h3 class="text-xl serif-font font-bold mb-2">Full Course</h3>
-                    <p class="text-xs text-gray-500 mb-4 uppercase tracking-wide">Ivy / Ke Xin / Boo</p>
-                    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTYxMDM3MjQ0NzA5MTgw?story_media_id=3316392326037451379&igsh=aGIzaDg3bm92eTBl" target="_blank" class="block w-full border border-black py-2 text-xs uppercase hover:bg-black hover:text-white transition">View Highlights</a>
-                </div>
-                <!-- 3. Correction Class -->
-                <div class="bg-white p-6 shadow-sm hover:shadow-md transition text-center group">
-                    <div class="aspect-square overflow-hidden mb-4 bg-gray-100"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/jz1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-                    <h3 class="text-xl serif-font font-bold mb-2">Correction Class</h3>
-                    <p class="text-xs text-gray-500 mb-4 uppercase tracking-wide">Shean Yuan / Boo</p>
-                    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE4MTAwOTUxMzk2NTU0Njc4?story_media_id=3581259703613504690&igsh=eXNnbmUyMTBudDN4" target="_blank" class="block w-full border border-black py-2 text-xs uppercase hover:bg-black hover:text-white transition">View Highlights</a>
-                </div>
-                <!-- 4. 1-on-1 Class -->
-                <div class="bg-white p-6 shadow-sm hover:shadow-md transition text-center group">
-                    <div class="aspect-square overflow-hidden mb-4 bg-gray-100"><img src="https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/dz1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-                    <h3 class="text-xl serif-font font-bold mb-2">1-on-1 Custom</h3>
-                    <p class="text-xs text-gray-500 mb-4 uppercase tracking-wide">Shean Yuan / Ke Xin / Pei Ying / Boo</p>
-                    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE4Mzk5ODQzMTMzMTQzMTA0?story_media_id=3438517743778417452&igsh=MW85N2w2bTVhNW02eg==" target="_blank" class="block w-full border border-black py-2 text-xs uppercase hover:bg-black hover:text-white transition">View Highlights</a>
-                </div>
-            </div>
+      {/* Global Style for Smooth Scroll */}
+      <style>{`
+        html { scroll-behavior: smooth; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        /* Hide scrollbar for mini nav on mobile */
+        nav::-webkit-scrollbar { display: none; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #F7F2ED; }
+        ::-webkit-scrollbar-thumb { background: #d9cfc5; border-radius: 10px; }
+      `}</style>
+    </div>
+  );
+};
 
-            <!-- WeChat CTA -->
-            <div class="text-center bg-white p-8 max-w-2xl mx-auto shadow-lg rounded-lg border border-green-100">
-                <i class="fab fa-weixin text-5xl text-green-500 mb-4 block"></i>
-                <p class="text-gray-600 mb-6 italic">For course enquiry, kindly contact via WeChat for more details.</p>
-                <a href="weixin://dl/chat?username=Nailsbylittleboo" class="inline-block bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition shadow-md font-bold tracking-wide">
-                    Connect on WeChat
-                </a>
-                <p class="text-xs text-gray-400 mt-2">ID: Nailsbylittleboo</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. OUR STORY (NEW SLIDER) -->
-    <section id="story" class="relative w-full h-[80vh] bg-gray-900" 
-             x-data="{ 
-                currentStory: 0, 
-                stories: [
-                    { img: 'story1.png', title: '2013-2015: The Spark & The Refinement', text: 'Our story begins in 2013 with Boo Sze Teng\'s initial spark of passion for nail art... The crucial shift came two years later when she embraced Japanese Nail Art principles.' },
-                    { img: 'story1.png', title: '2016-2018: Education & Experience', text: 'Balancing her passion, Boo successfully completed her bachelor’s degree in Inti University while working part-time... Followed by invaluable industry experience in Singapore.' },
-                    { img: 'story2.png', title: '2019: Anchored in Sunway Geo', text: 'The vision was finally realized in 2019 when Nailsbylittleboo opened its first boutique studio in Sunway Geo Avenue. Success is a shared journey.' },
-                    { img: 'story3.png', title: 'Today: A Team of Ten', text: 'Today, Nailsbylittleboo is proudly sailed by a devoted crew of 10 professional manicurists. We are a dedicated collective committed to Progress, Innovation, and Gratitude.' }
-                ],
-                nextStory() { this.currentStory = (this.currentStory + 1) % this.stories.length },
-                prevStory() { this.currentStory = (this.currentStory - 1 + this.stories.length) % this.stories.length }
-             }">
-        
-        <template x-for="(story, index) in stories" :key="index">
-            <div class="absolute inset-0 transition-opacity duration-1000" x-show="currentStory === index"
-                 x-transition:enter="transition ease-out duration-1000" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                 x-transition:leave="transition ease-in duration-1000" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-                <img :src="'https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/' + story.img" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
-                    <div class="text-center text-white px-6 max-w-4xl">
-                        <h2 class="text-3xl md:text-5xl serif-font mb-6" x-text="story.title"></h2>
-                        <div class="w-16 h-px bg-white mx-auto mb-8"></div>
-                        <p class="text-base md:text-xl font-light leading-relaxed" x-text="story.text"></p>
-                    </div>
-                </div>
-            </div>
-        </template>
-        
-        <!-- Arrows -->
-        <button @click="prevStory()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition z-20"><i class="fas fa-chevron-left"></i></button>
-        <button @click="nextStory()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-3xl p-4 hover:bg-white/10 rounded-full transition z-20"><i class="fas fa-chevron-right"></i></button>
-        
-        <!-- Dots -->
-        <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-20">
-            <template x-for="(story, index) in stories">
-                <button @click="currentStory = index" class="w-3 h-3 rounded-full border border-white/80 transition" :class="currentStory === index ? 'bg-white' : 'hover:bg-white/30'"></button>
-            </template>
-        </div>
-    </section>
-
-    <!-- 6. CONTACT US -->
-    <section id="contact" class="py-20 bg-white border-t border-gray-300">
-        <div class="container mx-auto px-6 max-w-5xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <h2 class="text-3xl text-black serif-font mb-8">Contact Us</h2>
-                    <div class="mb-8 text-gray-700">
-                        <strong class="text-black block mb-2 serif-font tracking-wide text-lg">NAILSBYLITTLEBOO SALON</strong>
-                        <p class="leading-relaxed mb-4">B-05-21 Sunway Geo Avenue,<br>Jalan Lagoon Selatan Bandar Sunway,<br>47500 Subang Jaya, Selangor, Malaysia.</p>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <a href="https://www.google.com/maps?rlz=1C1VDKB_enMY1123MY1123&gs_lcrp=EgZjaHJvbWUqDwgAECMYJxjjAhiABBiKBTIPCAAQIxgnGOMCGIAEGIoFMhIIARAuGCcYrwEYxwEYgAQYigUyBggCEEUYOzIXCAMQRRg5GEMYgwEYsQMYyQMYgAQYigUyBggEEEUYPDIGCAUQRRg8MgYIBhBFGDwyBggHEEUYPNIBCDI3MDJqMGo3qAIAsAIA&um=1&ie=UTF-8&fb=1&gl=my&sa=X&geocode=KZ9GAcc0TcwxMecl73bGfLxa&daddr=B-05-17,+19+and+21,+Sunway+GEO+Avenue,+Jalan+Lagoon+Selatan,+Bandar+Sunway,+47500+Subang+Jaya,+Selangor" target="_blank" class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded hover:bg-black hover:text-white hover:border-black transition duration-300 text-sm font-medium"><i class="fas fa-map-marked-alt mr-2 text-red-500"></i> Google Map</a>
-                            <a href="https://waze.com/ul/hw2832jyph" target="_blank" class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded hover:bg-black hover:text-white hover:border-black transition duration-300 text-sm font-medium"><i class="fab fa-waze mr-2 text-blue-400"></i> Waze</a>
-                        </div>
-                    </div>
-                    <a href="https://wa.me/60183887390" class="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition duration-300 mb-8 text-sm uppercase">WhatsApp Us</a>
-                </div>
-                <div class="md:text-right">
-                    <h3 class="text-xl text-black serif-font mb-6">Operating Hours</h3>
-                    <div class="space-y-2 font-light text-gray-700">
-                        <div class="flex justify-between md:justify-end gap-8"><span>Monday - Friday</span><span class="font-medium">11am - 6:30pm</span></div>
-                        <div class="flex justify-between md:justify-end gap-8"><span>Saturday - Sunday</span><span class="font-medium">9am - 4:30pm</span></div>
-                    </div>
-                    <div class="mt-12 text-xs text-gray-500 flex flex-col gap-1"><p>Nailsbylittleboo Salon is operated by Daun Segar Sdn Bhd (1444290-V).</p><p>&copy; 2025 Nailsbylittleboo Salon. All rights reserved.</p></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Floating WhatsApp -->
-    <a href="https://wa.me/60183887390" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-
-</body>
-</html>
+export default App;
