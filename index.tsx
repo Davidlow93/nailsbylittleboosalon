@@ -40,7 +40,7 @@ const COURSES = [
     title: '基础入门班 (Fundamental)',
     duration: '5 - 8 周',
     target: '零基础学员 / 美甲爱好者',
-    img: 'JZB.jpg',
+    img: 'JZB1.jpg',
     igLink: 'https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTYxMDM3MjQ0NzA5MTgw?story_media_id=3316392326037451379',
     core: ['专业理论与卫生规范', '标准修型与极致护理', '基础凝胶/单色/法式', '基础线条/花卉彩绘']
   },
