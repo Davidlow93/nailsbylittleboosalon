@@ -50,7 +50,7 @@ const COURSES = [
     target: '零基础、职业美甲师或创业者',
     img: 'qk3.jpg',
     igLink: 'https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTYxMDM3MjQ0NzA5MTgw?story_media_id=3316392326037451379',
-    core: ['涵盖入门班全部内容', '快速延长/异形甲矫正', '复杂彩绘/立体饰品', '门店运营/定价/摄影修图']
+    core: ['涵盖入门班全部内容', '快速延长/异形甲矫正', '复杂彩绘/立体饰品', '门店运营/定价/摄影营销']
   },
   {
     title: '美甲师矫正班 (Refinement)',
@@ -58,7 +58,7 @@ const COURSES = [
     target: '有经验但需解决痛点的美甲师',
     img: 'jz1.jpg',
     igLink: 'https://www.instagram.com/s/aGlnaGxpZ2h0OjE4MTAwOTUxMzk2NTU0Njc4?story_media_id=3581259703613504690',
-    core: ['纠正握笔与打磨机手法', '极致包边/提升维持度(4周+)', '优化流程/大幅提升实操速度']
+    core: ['纠正实操概念/手法', '极致包边/提升维持度(4周+)', '优化流程/提升实操速度']
   },
   {
     title: '设计进修班 (Masterclass)',
@@ -74,7 +74,7 @@ const COURSES = [
     target: '需针对性攻克薄弱点的学员',
     img: 'dz1.jpg',
     igLink: 'https://www.instagram.com/s/aGlnaGxpZ2h0OjE4Mzk5ODQzMTMzMTQzMTA0?story_media_id=3438517743778417452',
-    core: ['全私人定制教学模块', '根据现有水平深度陪跑', '手把手解决个人实操盲点']
+    core: ['全私人定制教学模块', '根据现有水平调整提升速度', '一对一解决个人实操盲点']
   }
 ];
 
@@ -310,7 +310,7 @@ const App: React.FC = () => {
                       target="_blank" 
                       className="text-[10px] font-bold uppercase tracking-widest text-black hover:text-gray-500 transition"
                     >
-                      查看精华亮點 &rarr;
+                      Click for more details &rarr;
                     </a>
                   </div>
                 </div>
