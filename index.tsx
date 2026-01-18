@@ -15,7 +15,7 @@ import {
 
 // --- Constants & Assets ---
 const ASSET_BASE = "https://raw.githubusercontent.com/Davidlow93/nailsbylittleboosalon/main/assets/";
-const LOGO_URL = `${ASSET_BASE}logo.png`;
+const LOGO_URL = `${ASSET_BASE}logo%20round.png`; // Updated to the new logo
 const WHATSAPP_NUMBER = "60183887390";
 const WECHAT_ID = "Nailsbylittleboo";
 
@@ -146,7 +146,12 @@ const App: React.FC = () => {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 h-20 md:h-24 bg-[#F7F2ED]/95 backdrop-blur-md border-b border-gray-200 shadow-sm px-4 md:px-12 flex items-center justify-between">
         <a href="#" className="h-full flex items-center py-2 flex-shrink-0">
-          <img src={LOGO_URL} alt="Nailsbylittleboo" className="h-10 md:h-14 lg:h-16 w-auto object-contain" />
+          {/* Logo updated to circle shape to match IG */}
+          <img 
+            src={LOGO_URL} 
+            alt="Nailsbylittleboo" 
+            className="h-10 md:h-14 lg:h-16 aspect-square object-cover rounded-full border border-gray-100 shadow-sm" 
+          />
         </a>
         
         <nav className="hidden lg:flex gap-8 text-[11px] font-bold tracking-[0.2em] uppercase">
