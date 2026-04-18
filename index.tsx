@@ -25,12 +25,12 @@ const MENU_IMAGES = ['menu%201.png', 'menu%202.png', 'menu%203.png', 'menu%204.p
 const ARTISTS = [
   { name: 'Boo', img: 'boo.jpg', ig: 'nailsbylittleboo' },
   { name: 'Shean Yuan', img: 'sy.jpg', ig: 'salon_de_mie' },
-  { name: 'Pei Ying', img: 'py.jpg', ig: 'popeye.nailsart' },
+  { name: 'Pei Ying', img: 'py.jpg', ig: 'peia__atelier' },
   { name: 'Ke Xin', img: 'kx.jpg', ig: '_xinnails' },
-  { name: 'Ivy', img: 'ivy.jpg', ig: 'ivnails_nailsbylittleboo' },
-  { name: 'Gisselle', img: 'gs.jpg', ig: 'yimagine.nails' },
+  { name: 'Ivy', img: 'ivy.jpg', ig: 'iona.atelier' },
+  { name: 'Gisselle', img: 'gs.jpg', ig: 'gesso.atelier_' },
   { name: 'Jayee', img: 'jy.jpg' },
-  { name: 'Wen Jing', img: 'wj.jpg' },
+  { name: 'Wen Jing', img: 'wj.jpg', ig: 'lu.u_atelier'},
   { name: 'Yi Xuan', img: 'yx.jpg' },
   { name: 'Ting Ting', img: 'tt.jpg' },
 ];
