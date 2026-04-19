@@ -29,8 +29,8 @@ const ARTISTS = [
   { name: 'Ke Xin', img: 'kx.jpg', ig: '_xinnails' },
   { name: 'Ivy', img: 'ivy.jpg', ig: 'iona.atelier' },
   { name: 'Gisselle', img: 'gs.jpg', ig: 'gesso.atelier_' },
-  { name: 'Jayee', img: 'jy.jpg' },
-  { name: 'Wen Jing', img: 'wj.jpg', ig: 'lu.u_atelier'},
+  { name: 'Jayee', img: 'jy.jpg', ig: 'joie_.atelier' },
+  { name: 'Wen Jing', img: 'wj.jpg', ig: 'lu.u_atelier' },
   { name: 'Yi Xuan', img: 'yx.jpg' },
   { name: 'Ting Ting', img: 'tt.jpg' },
 ];
